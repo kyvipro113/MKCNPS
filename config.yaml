@@ -1,0 +1,28 @@
+CNP_SERVICE:
+    CNP_HOST: 10.30.100.241
+    CNP_PORT: 6321
+    SECURE: False
+    NUM_CPU: 1
+DATABASE:
+    DB_HOST: 10.30.100.241
+    DB_PORT: 5433
+    DB_USERNAME: postgres
+    DB_PASSWORD: 123456
+    DB_NAME: mkcnp
+MINIO_SERVER_API:
+    USE_PORT: True
+    MSI_HOST: 10.30.100.241
+    #MSI_HOST: namecard-minio.mk.com.vn
+    MSI_PORT: 9000
+    SECURE: False
+    CA_MINIO: SSL/ca_minio/rootCA.crt
+REDIS_SERVER:
+    REDIS_HOST: 127.0.0.1
+    REDIS_PORT: 6378
+EMAIL_SENDER:
+    EMAIL: kynh@mksmart.com.vn
+    KEY: "hergkxucfohysaon"
+SSL:
+    KEY: SSL/wildcard.mk.com.vn.pem
+    CERT: SSL/ServerCertificate.crt
+    CA_CERT: SSL/ChainBundle1.crt
