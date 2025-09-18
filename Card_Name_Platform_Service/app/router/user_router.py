@@ -15,7 +15,7 @@ router = APIRouter(
 )
 
 @router.post("/get-profile-list")
-async def get_profile_list(request: Request, token_payload: PayloadEndUserModel=Depends(verify_token_factory(mode="normal"))):
+async def get_profile_list(request: Request, token_payload: PayloadEndUserModel=Depends(verify_token_factory(TokenModel, mode="normal"))):
     ip = request.client.host
     print(token_payload)
     res = await get_profile_list(uid=token_payload.uid, ip=ip)

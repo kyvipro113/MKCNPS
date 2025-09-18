@@ -1,5 +1,6 @@
 import yaml
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, HTTPException
+from fastapi.responses import JSONResponse
 # Test
 from fastapi import Request
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -16,7 +17,12 @@ from Card_Name_Platform_Service.app.router import user_router
 
 
 
-app = FastAPI()
+app = FastAPI(
+    debug=True,
+    title="Name Card Platform Service",
+    description="Name Card Platform Service",
+    version="2.0.0"
+)
 
 origins = ["*"]
 
@@ -73,6 +79,11 @@ load_settings_redis(REDIS_HOST, REDIS_PORT)
 
 load_settings_smtp_email(EMAIL, KEY)
 
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    content = exc.detail if isinstance(exc.detail, dict) else {"detail": str(exc.detail)}
+    return JSONResponse(content=content, status_code=exc.status_code)
 
 # Include router
 app.include_router(auth_router.router)

@@ -25,7 +25,7 @@ async def cms_login(request: Request, auth_model: AuthModel):
     return res
 
 @router.post("/refresh-token")
-async def refresh_token(request: Request, token_payload: TokenPayloadModel=Depends(verify_token_factory(mode="all"))):
+async def refresh_token(request: Request, token_payload: TokenPayloadModel=Depends(verify_token_factory(TokenModel, mode="all"))):
     ip = request.client.host
     res = await refresh_access_token(token_payload=token_payload, ip=ip)
     return res
