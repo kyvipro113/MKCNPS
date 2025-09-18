@@ -6,15 +6,15 @@ from datetime import datetime, timezone
 
 class ObjectIdGenerator:
     """
-    Tạo ObjectId theo cấu trúc:
+    Creaate ObjectId with structure:
     [4B timestamp seconds][5B random per-process][3B counter]
     - timestamp: big-endian
-    - counter: 24-bit, quay vòng
-    Cấu trúc này tương thích định dạng với MongoDB drivers hiện đại.
+    - counter: 24-bit, rollover
+    This structure is compatible with modern MongoDB drivers.
     """
     _lock = threading.Lock()
-    _rand5 = os.urandom(5)                 # 5 byte ngẫu nhiên cố định cho mỗi process
-    _counter = int.from_bytes(os.urandom(3), "big")  # 24-bit counter khởi tạo ngẫu nhiên
+    _rand5 = os.urandom(5)                 # 5 bytes random fixed per process
+    _counter = int.from_bytes(os.urandom(3), "big")  # 24-bit counter initialized randomly
 
     @classmethod
     def generate_bytes(cls) -> bytes:
@@ -28,16 +28,16 @@ class ObjectIdGenerator:
 
     @classmethod
     def generate(cls) -> str:
-        """Trả về 24 ký tự hex (chuỗi) giống Mongo ObjectId."""
+        """Return 24 hex string like Mongo ObjectId."""
         return cls.generate_bytes().hex()
 
 def decode_oid_hex(oid_hex: str):
     """
-    Giải mã OID hex (24 hex) -> dict: timestamp, random5, counter
+    Decode OID hex (24 hex) -> dict: timestamp, random5, counter
     """
     b = bytes.fromhex(oid_hex)
     if len(b) != 12:
-        raise ValueError("ObjectId phải dài 12 byte (24 hex).")
+        raise ValueError("ObjectId must be 12 bytes (24 hex).")
     ts = struct.unpack(">I", b[0:4])[0]
     rand5 = b[4:9]
     counter = int.from_bytes(b[9:12], "big")
