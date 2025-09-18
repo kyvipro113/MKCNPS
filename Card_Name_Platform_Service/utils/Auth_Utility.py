@@ -48,12 +48,12 @@ ALGORITHM = "HS256"
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-def verify_token_factory(model_cls: Type[BaseModel], mode: str = "all"):
+def verify_token_factory(mode: str = "all"):
     async def _verify_token(token: str = Depends(oauth2_scheme))->Union[PayloadEndUserModel, PayloadManagerModel, TokenPayloadModel]:
         if not isinstance(token, str) or not token:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail=model_cls(message="Missing or invalid token type").model_dump(mode="json")
+                detail="Missing or invalid token type"
             )
 
             #raise JSONResponse(content=model_cls(message="Token can not decode").model_dump(mode="json"), status_code=401)
@@ -64,7 +64,7 @@ def verify_token_factory(model_cls: Type[BaseModel], mode: str = "all"):
         except Exception:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail=model_cls(message="Token can not decode").model_dump(mode="json")
+                detail="Token can not decode"
             )
 
             #raise JSONResponse(content=model_cls(message="Token can not decode").model_dump(mode="json"), status_code=401)
@@ -78,7 +78,7 @@ def verify_token_factory(model_cls: Type[BaseModel], mode: str = "all"):
         if uid is None:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
-                detail=model_cls(message="Token is invalid").model_dump(mode="json")
+                detail="Token is invalid"
             )
 
             #raise JSONResponse(content=model_cls(message="Token is invalid").model_dump(mode="json"), status_code=401)

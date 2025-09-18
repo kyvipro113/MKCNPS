@@ -35,16 +35,12 @@ async def authenticate_user(auth: AuthModel, ip: str, mode="end_user"):
                     "pwd": auth.password,
                 }    
                 account_if = await mongo.find_one(account_info.__name__, query)
-            print(account_if)
-            print((account_if["_id"]))
-            print(type(str(account_if["_id"])))
+    
             if account_if is None:
                 token_model.message = LoginMsg.user_not_found
                 return JSONResponse(content=token_model.model_dump(mode="json"), status_code=401)
             
             accountIF = account_info(**account_if)
-            print(type(accountIF.id))
-            print(accountIF.id)
 
             token_data = PayloadEndUserModel(
                 uid=str(accountIF.id),
