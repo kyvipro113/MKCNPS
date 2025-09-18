@@ -183,7 +183,11 @@ class profile_info(BaseModel):
 #                     {
 #                         "area_code": "+84",
 #                         "phone": "39301055",
-#                         "branch_name": "Chi nhánh Hồ Chí Minh"
+#                         "branch_name": "Chi nhánh Hồ Chí Minh",
+#                         "address_list": [
+#                             "Quận 9, Tp. Hồ Chí Minh",
+#                             "Tp. Thủ Đức, Tp. Hồ Chí Minh"
+#                         ]
 #                     }
 #                 ],
 #                 "position": "Software Engineer",
@@ -227,21 +231,24 @@ class profile_info(BaseModel):
 #                 "image_locations": [
 #                     "gallery/08c18cac20240919083703_gallery.png",
 #                     "gallery/09af9ae420240919084552_gallery.png"
-#                 ]
+#                 ],
+#                 "layout_position": 8
 #             }
 #         ],
 #         "widgets_social_network_link": [
 #             {
 #                 "social_network_name": "Facebook",
-#                 "social_network_link": "https://facebook.com/nevermore.169"
+#                 "social_network_link": "https://facebook.com/nevermore.169",
+#                 "layout_position": 9
 #             },
 #             {
 #                 "social_network_name": "social_network_name",
-#                 "social_network_link": "https://tiktok.com/12131313"
+#                 "social_network_link": "https://tiktok.com/12131313",
+#                 "layout_position": 10
 #             }
 #         ],
 #             "name": "John Smith"
 #     }
     
 #     profile_if = profile_info(**data)
-#     print(profile_if.model_dump(mode="python"))
+#     print(profile_if.model_dump(mode="python", by_alias=True))
