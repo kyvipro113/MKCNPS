@@ -20,7 +20,7 @@ class ObjectIdGenerator:
     def generate_bytes(cls) -> bytes:
         ts = int(time.time())
         with cls._lock:
-            cls._counter = (cls._counter + 1) & 0xFFFFFF  # giữ 24-bit
+            cls._counter = (cls._counter + 1) & 0xFFFFFF  # keep 24-bit
             counter_bytes = cls._counter.to_bytes(3, "big")
 
         ts_bytes = struct.pack(">I", ts)  # 4 byte big-endian
