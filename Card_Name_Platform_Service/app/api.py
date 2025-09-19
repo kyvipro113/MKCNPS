@@ -12,9 +12,7 @@ from Card_Name_Platform_Service.minio_client.Minio_Client import load_settings_m
 from Card_Name_Platform_Service.utils.Redis_Utility import load_settings_redis
 from Card_Name_Platform_Service.utils.Send_Email import load_settings_smtp_email
 
-from Card_Name_Platform_Service.app.router import auth_router
-from Card_Name_Platform_Service.app.router import user_router
-
+from Card_Name_Platform_Service.app.v1.routers import router as v1_router
 
 
 app = FastAPI(
@@ -86,14 +84,24 @@ async def http_exception_handler(request: Request, exc: HTTPException):
     return JSONResponse(content=content, status_code=exc.status_code)
 
 # Include router
-app.include_router(auth_router.router)
-app.include_router(user_router.router)
+app.include_router(v1_router)
+
 
 @app.post("/token")
 async def token(request: Request, data=Depends(OAuth2PasswordRequestForm)):
+    """
+    Data test for authentication in OpenAPI.
+
+    End user:
+    - **email**: marinkqh@gmail.com
+    - **password**: 54047024fd89c7c3bc9b9131bf9a76437755925314d6a64d60e629df0882edaa
+    - **phone number**: 113   
+
+    CMS:
+    - **email**: admin
+    - **password**: 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918  
+    """
     from Card_Name_Platform_Service.app.service.auth.authentication import authenticate_user, AuthModel
-    print(f"{data.username, data.password}")
     ip = request.client.host
     res = await authenticate_user(auth=AuthModel(email=data.username, password=data.password), ip=ip)
-    print(res)
     return res

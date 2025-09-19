@@ -106,7 +106,14 @@ class Minio_Client(object):
             return url
         except Exception as err:
             raise ValueError("MinIO Server Error:" + str(err))
-        
+
+    async def get_url_upload(bucket_name, object_name):
+        try:
+            url = await Minio_Client.minio_client.presigned_put_object(bucket_name=bucket_name, object_name=object_name, expires=timedelta(minutes=5))
+            return url
+        except Exception as err:
+            raise ValueError("MinIO Server Error:" + str(err))
+
     async def get_url_no_presign(bucket_name, object_name):
         pre_link = ""
         if Minio_Client.SECURE:

@@ -6,9 +6,6 @@ from Card_Name_Platform_Service.app.model.Token_Model import *
 from Card_Name_Platform_Service.utils.JWT_Utility import decode_jwt_token
 from Card_Name_Platform_Service.utils.Custom_HTTPException import *
 
-SECRET_KEY = "728b47cdae4823d01dc5c36c95364680fb3af92307689afd21cd8106d7ff9dd3"
-ALGORITHM = "HS256"
-
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 def verify_token_factory(model_cls: Type[BaseModel], mode: str = "all"):
@@ -20,7 +17,7 @@ def verify_token_factory(model_cls: Type[BaseModel], mode: str = "all"):
             )
 
         try:
-            payload = decode_jwt_token(token, SECRET_KEY, ALGORITHM)
+            payload = decode_jwt_token(token)
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
@@ -34,7 +31,6 @@ def verify_token_factory(model_cls: Type[BaseModel], mode: str = "all"):
             )
 
         uid = payload["uid"]
-        print(f"Debug: payload={payload}")
         if uid is None or uid == "":
                 raise HTTPException(
                     status_code=status.HTTP_401_UNAUTHORIZED,

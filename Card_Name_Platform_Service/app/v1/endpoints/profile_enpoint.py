@@ -10,14 +10,14 @@ from Card_Name_Platform_Service.app.service.profile.get_profile_list import *
 from Card_Name_Platform_Service.utils.Auth_Utility import *
 
 router = APIRouter(
-    prefix="/user",
-    tags=["user"]
+    prefix="/profile",
+    tags=["profile"]
 )
 
-@router.post("/get-profile-list")
-async def get_profile_list(request: Request, token_payload: PayloadEndUserModel=Depends(verify_token_factory(TokenModel, mode="normal"))):
+@router.post("/get-profile-via-serial")
+async def get_profile_via_serial(request: Request):
     ip = request.client.host
-    print(token_payload)
-    res = await get_profile_list(uid=token_payload.uid, ip=ip)
-    return JSONResponse(content="OK", status_code=200)
-    
+
+@router.post("/get-profile-via-username-link")
+async def get_profile_via_username_link(request: Request):
+    ip = request.client.host
