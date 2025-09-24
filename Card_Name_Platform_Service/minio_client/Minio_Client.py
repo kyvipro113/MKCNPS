@@ -108,10 +108,15 @@ class Minio_Client(object):
             raise ValueError("MinIO Server Error:" + str(err))
 
     async def get_url_upload(bucket_name, object_name):
+        print(f"Pre")
         try:
+            print(f"Pre1")
             url = await Minio_Client.minio_client.presigned_put_object(bucket_name=bucket_name, object_name=object_name, expires=timedelta(minutes=5))
+            print(f"Pre2")
             return url
         except Exception as err:
+            print(f"Re")
+            print(str(err))
             raise ValueError("MinIO Server Error:" + str(err))
 
     async def get_url_no_presign(bucket_name, object_name):
@@ -153,13 +158,14 @@ def is_valid_url(url):
 
     
 def load_settings_minio(URL_MINIO_SERVER, ACCESS_KEY, SECRET_KEY, SECURE=False, CA_path=""):
+    print(f"Load MinIO settings, URL: {URL_MINIO_SERVER}, AccessKey: {ACCESS_KEY}, SecretKey: {SECRET_KEY} Secure: {SECURE}, CA_path: {CA_path}")
     Minio_Client.URL_MINIO_SERVER = URL_MINIO_SERVER
     Minio_Client.ACCESS_KEY = ACCESS_KEY
     Minio_Client.SECRET_KEY = SECRET_KEY
     Minio_Client.SECURE = SECURE
     if(SECURE):
         os.environ["SSL_CERT_FILE"] = CA_path
-        Minio_Client.minio_client = Minio(endpoint=Minio_Client.URL_MINIO_SERVER, 
+        Minio_Client.minio_client = Minio(endpoints=Minio_Client.URL_MINIO_SERVER, 
                                         access_key=Minio_Client.ACCESS_KEY, 
                                         secret_key=Minio_Client.SECRET_KEY, secure=True)
     else:

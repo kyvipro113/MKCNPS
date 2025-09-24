@@ -3,6 +3,8 @@ import struct
 import threading
 import time
 from datetime import datetime, timezone
+from bson import ObjectId 
+from typing import Union
 
 class ObjectIdGenerator:
     """
@@ -27,15 +29,17 @@ class ObjectIdGenerator:
         return ts_bytes + cls._rand5 + counter_bytes
 
     @classmethod
-    def generate(cls) -> str:
+    def generate(cls, mode="oid") -> Union[str, ObjectId]:
         """Return 24 hex string like Mongo ObjectId."""
-        return cls.generate_bytes().hex()
+        if mode == "str":
+            return cls.generate_bytes().hex()
+        return ObjectId(cls.generate_bytes())
 
-def decode_oid_hex(oid_hex: str):
+def decode_oid_hex(oid_hex: Union[str, ObjectId]):
     """
     Decode OID hex (24 hex) -> dict: timestamp, random5, counter
     """
-    b = bytes.fromhex(oid_hex)
+    b = bytes.fromhex(oid_hex) if isinstance(oid_hex, str) else bytes.fromhex(str(oid_hex))
     if len(b) != 12:
         raise ValueError("ObjectId must be 12 bytes (24 hex).")
     ts = struct.unpack(">I", b[0:4])[0]
@@ -50,6 +54,8 @@ def decode_oid_hex(oid_hex: str):
 
 # if __name__ == "__main__":
 #     for _ in range(3):
-#         oid = ObjectIdGenerator.generate()
+#         oid = ObjectIdGenerator.generate(mode="str")
 #         print(oid, decode_oid_hex(oid))
+#     print("-----"*10)
+#     print("68b1241c91b161bf70c9cf35", decode_oid_hex(ObjectId("68b1241c91b161bf70c9cf35")))
 #     print("68b1241c91b161bf70c9cf35", decode_oid_hex("68b1241c91b161bf70c9cf35"))

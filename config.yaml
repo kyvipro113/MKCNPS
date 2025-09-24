@@ -10,14 +10,14 @@ DATABASE:
     DB_PASSWORD: Null
     DB_NAME: mkcnp
 MINIO_SERVER_API:
-    USE_PORT: False
-    #MSI_HOST: 10.30.100.241
-    MSI_HOST: namecard-minio.mk.com.vn
+    USE_PORT: True
+    MSI_HOST: 10.30.72.11
+    #MSI_HOST: namecard-minio.mk.com.vn
     MSI_PORT: 9000
-    SECURE: True
+    SECURE: False
     CA_MINIO: SSL/ca_minio/rootCA.crt
-    ACCESS_KEY: KrsD47W1wtOvgrd9aNTp
-    SECRET_KEY: OJT7za1RF4Wah7lrGnE0ERR1sDAuTanx5aoBEslh
+    ACCESS_KEY: rYljmk2rPzbWzBxT6167
+    SECRET_KEY: FxvBDcRiFG0iIvCRhdwYmMcCIt7QqGwXItmWvPnO
 REDIS_SERVER:
     REDIS_HOST: 127.0.0.1
     REDIS_PORT: 6378

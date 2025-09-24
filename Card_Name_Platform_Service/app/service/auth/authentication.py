@@ -14,6 +14,7 @@ def is_phone_number_sequence(s):
 
 async def authenticate_user(auth: AuthModel, ip: str, mode="end_user"):
     """"Two mode: end_user, cms. Default end_user"""
+    # Increase version of token
     mongo = AsyncMongoDB()
     logger = Logger(folder_name="Log", file_name=ip, name_logger=ip, file_mode="a")
     account_if = None
@@ -48,12 +49,12 @@ async def authenticate_user(auth: AuthModel, ip: str, mode="end_user"):
                 change_profile=accountIF.change_profile
             )
 
-            token_model.access_token, token_model.refresh_token = create_jwt_access_and_refresh_token(data=token_data.model_dump(mode="python"))
+            token_model.access_token, token_model.refresh_token = await create_jwt_access_and_refresh_token(data=token_data.model_dump(mode="python"))
             token_model.message = LoginMsg.successful
 
             print(token_model.model_dump(mode="json"))
             return JSONResponse(content=token_model.model_dump(mode="json"), status_code=200)
-
+            # Add more value return
         except Exception as e:
             print(str(e))
             await logger.trace(f"Exception in authenticate_user: {str(e)}")
@@ -82,7 +83,7 @@ async def authenticate_user(auth: AuthModel, ip: str, mode="end_user"):
                 status=accountIF.status
             )
 
-            token_model.access_token, token_model.refresh_token = create_jwt_access_and_refresh_token(data=token_data.model_dump(mode="python"))
+            token_model.access_token, token_model.refresh_token = await create_jwt_access_and_refresh_token(data=token_data.model_dump(mode="python"))
             token_model.message = LoginMsg.successful
             return JSONResponse(content=token_model.model_dump(mode="json"), status_code=200)
 

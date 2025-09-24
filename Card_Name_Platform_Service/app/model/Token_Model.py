@@ -7,8 +7,9 @@ class PayloadEndUserModel(BaseModel):
     uid: str = ""
     flag: bool = False
     change_profile: bool = False
+    token_type: str = ""
 
-    model_config = {"extra": "allow"}  # Extending to allow additional fields (exp, token_type)
+    model_config = {"extra": "allow"}  # Extending to allow additional fields (exp, token_type, email, ....)
 
 class PayloadManagerModel(BaseModel):
     uid: str = ""
@@ -16,6 +17,7 @@ class PayloadManagerModel(BaseModel):
     username: str = ""
     name: str = ""
     status: str = ""
+    token_type: str = ""
 
     model_config = {"extra": "allow"}  # # Extending to allow additional fields (exp, token_type)
 

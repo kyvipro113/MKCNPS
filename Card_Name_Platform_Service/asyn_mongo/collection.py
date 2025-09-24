@@ -14,8 +14,8 @@ class account_info(BaseModel):
     pwd: str = ""
     phone_number: str = ""
     username_link: str = ""
-    language: str = "vietnamese"
-    status: str = "01"
+    language: str = "english"
+    status: str = "02"
     act_login_by_phone_number: bool = False
     first_login: bool = False
     change_profile: bool = True
