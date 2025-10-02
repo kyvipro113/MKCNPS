@@ -24,3 +24,10 @@ class LoginMsg:
 class MinIOMsg:
     failed = "Get presigned url failed"
     successful = "Get presigned url successful"
+
+class ProfileMsg:
+    build_successful = "Build profile successful"
+    update_successful = "Update profile successful"
+    get_successful = "Get profile successful"
+    failed = "Handle profile failed"
+    not_found = "Profile not found"

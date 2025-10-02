@@ -6,13 +6,19 @@ from Card_Name_Platform_Service.app.service.auth.authentication import *
 from Card_Name_Platform_Service.app.service.auth.refresh_access_token import *
 from Card_Name_Platform_Service.app.model.Profile_List_Model import *
 from Card_Name_Platform_Service.app.service.profile.get_profile_list import *
-
+from Card_Name_Platform_Service.app.service.signup.build_profile import *
 from Card_Name_Platform_Service.utils.Auth_Utility import *
 
 router = APIRouter(
     prefix="/profile",
     tags=["profile"]
 )
+
+@router.post("/build-profile")
+async def build_profile(request: Request, profile_built: ProfileInfoBuiltModel, payload: PayloadEndUserModel=Depends(verify_token_factory(ErrorMessageModel, mode="normal"))):
+    ip = request.client.host
+    res = await build_fast_profile(payload=payload, profile_built=profile_built, ip=ip)
+    return res
 
 @router.post("/get-profile-via-serial")
 async def get_profile_via_serial(request: Request):

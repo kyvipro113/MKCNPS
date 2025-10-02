@@ -14,7 +14,9 @@ async def send_verification_code(code_id: str, email: str, ip: str, mode="regist
     try:
         print(f"Email rev: {email}")
         verify_code = genOTP_rnd()
+        print(f"Verify code: {verify_code}")
         data_send = EmailVerifyCodeModel(email=email, verify_code=verify_code)
+        print(f"Data send: {data_send}")
         client = RedisClient()
         await client.set_json(key=code_id, value=data_send.model_dump(mode="python"), ex=600)
         body = body_list[0] if mode == "register" else body_list[1]

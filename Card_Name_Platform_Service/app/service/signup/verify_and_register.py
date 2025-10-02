@@ -31,6 +31,7 @@ async def verify_and_register(verify_code: str, payload: PayloadEndUserModel, ip
 
         token_data = PayloadEndUserModel(
             uid=payload.uid,
+            email=account_if.email,
             flag=account_if.first_login,
             change_profile=account_if.change_profile
         )

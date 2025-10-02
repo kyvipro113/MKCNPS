@@ -42,7 +42,7 @@ class Minio_Client(object):
             await Minio_Client.minio_client.fput_object(bucket_name=bucket_name, object_name=object_name, file_path=file_path)
             return True
         except Exception as err:
-            raise ValueError(err)
+            raise S3Error(err)
 
     async def upload_data(bucket_name: str, object_name: str, data: str):
         try:
@@ -51,7 +51,7 @@ class Minio_Client(object):
             await Minio_Client.minio_client.put_object(bucket_name=bucket_name, object_name=object_name, data=data_stream, length=len(data_bytes))
             return True
         except Exception as err:
-            raise ValueError(err)
+            raise S3Error(err)
 
             
         
@@ -61,7 +61,7 @@ class Minio_Client(object):
             await Minio_Client.minio_client.put_object(bucket_name=bucket_name, object_name=object_name, data=data_stream, length=len(data), content_type=content_type)
             return True
         except Exception as err:
-            raise ValueError(err)
+            raise S3Error(err)
         
         
     async def delete_file(bucket_name: str, object_name: str, optional=False):
@@ -71,7 +71,7 @@ class Minio_Client(object):
         except Exception as err:
             if optional:
                 pass
-            raise ValueError(err)
+            raise S3Error(err)
     
     async def delete_multi_file(bucket_name: str, object_list: list):
         try:
@@ -79,14 +79,14 @@ class Minio_Client(object):
                 await Minio_Client.minio_client.remove_object(bucket_name=bucket_name, object_name=object_name)
             return True
         except Exception as err:
-            raise ValueError(err)
+            raise S3Error(err)
         
     async def delete_multi_file_native(bucket_name: str, object_list: list):
         try:
             await Minio_Client.minio_client.remove_objects(bucket_name=bucket_name, delete_object_list=object_list)
             return True
         except Exception as err:
-            raise ValueError(err)
+            raise S3Error(err)
         
     async def download_sdata(bucket_name, object_name):
         '''Using for small text data'''
@@ -98,14 +98,14 @@ class Minio_Client(object):
             data = bytes(data).decode("utf-8")
             return data
         except Exception as err:
-            raise ValueError(err)   
+            raise S3Error(err)   
 
     async def get_url(bucket_name, object_name):
         try:
             url = await Minio_Client.minio_client.presigned_get_object(bucket_name=bucket_name, object_name=object_name, expires=timedelta(days=1))
             return url
         except Exception as err:
-            raise ValueError("MinIO Server Error:" + str(err))
+            raise S3Error("MinIO Server Error:" + str(err))
 
     async def get_url_upload(bucket_name, object_name):
         print(f"Pre")
@@ -117,7 +117,7 @@ class Minio_Client(object):
         except Exception as err:
             print(f"Re")
             print(str(err))
-            raise ValueError("MinIO Server Error:" + str(err))
+            raise S3Error("MinIO Server Error:" + str(err))
 
     async def get_url_no_presign(bucket_name, object_name):
         pre_link = ""
@@ -142,7 +142,20 @@ class Minio_Client(object):
                 return ""
             return data
         except Exception as err:
-            raise ValueError("MinIO Server Error:" + str(err))
+            raise S3Error("MinIO Server Error:" + str(err))
+        
+
+    async def move_object(src_bucket, src_object, dest_bucket, dest_object=None, remove_src=False):
+        if dest_object is None:
+            dest_object = src_object
+        try:
+            copy_src = f"{src_bucket}/{src_object}"
+            await Minio_Client.minio_client.copy_object(bucket_name=dest_bucket, object_name=dest_object, object_source=copy_src)
+            if remove_src:
+                await Minio_Client.minio_client.remove_object(bucket_name=src_bucket, object_name=src_object)
+        except Exception as err:
+            raise S3Error("MinIO Server Error:" + str(err))
+
 
 
 def is_valid_url(url):

@@ -45,6 +45,7 @@ async def authenticate_user(auth: AuthModel, ip: str, mode="end_user"):
 
             token_data = PayloadEndUserModel(
                 uid=str(accountIF.id),
+                email=accountIF.email,
                 flag=accountIF.first_login,
                 change_profile=accountIF.change_profile
             )

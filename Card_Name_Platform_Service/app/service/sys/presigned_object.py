@@ -12,7 +12,7 @@ async def generate_presigned_put_obj_link(bucket_name: str, ip: str, object_name
         bucket_name = "temp" if is_temp else bucket_name
         print(f"bucket_name: {bucket_name}")
         await Minio_Client.create_folder(bucket_name=bucket_name)
-        obj_name = ObjectIdGenerator.generate() if object_name == "" else object_name
+        obj_name = ObjectIdGenerator.generate(mode="str") if object_name == "" else object_name
         presigned_url  = await Minio_Client.get_url_upload(bucket_name=bucket_name, object_name=obj_name)
         presigned_model = ObjectPresignedModel(object_name=obj_name, presigned_link=presigned_url, message=MinIOMsg.successful)
         return JSONResponse(content=presigned_model.model_dump(mode="json"), status_code=200)

@@ -8,7 +8,7 @@ class PayloadEndUserModel(BaseModel):
     flag: bool = False
     change_profile: bool = False
     token_type: str = ""
-
+    email: str = ""
     model_config = {"extra": "allow"}  # Extending to allow additional fields (exp, token_type, email, ....)
 
 class PayloadManagerModel(BaseModel):

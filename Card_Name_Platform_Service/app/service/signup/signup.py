@@ -34,6 +34,7 @@ async def signup(auth: AuthModel, ip: str):
         await redis_client.set_json(key=uid, value=account_if.model_dump(mode="python", by_alias=True), ex=600)
         token_data = PayloadEndUserModel(
             uid=uid,
+            email=account_if.email,
             flag=account_if.first_login,
             change_profile=account_if.change_profile
         )
@@ -41,7 +42,7 @@ async def signup(auth: AuthModel, ip: str):
         # Send verification code to email
         verification_code_id = str(uuid.uuid4())
         token_data.model_extra["code_id"] = verification_code_id
-        token_data.model_extra["email"] = account_if.email
+        
         await send_verification_code(code_id=verification_code_id, email=account_if.email, ip=ip, mode="register")
 
         token_model = TokenModel()

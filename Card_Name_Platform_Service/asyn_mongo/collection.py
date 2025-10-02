@@ -113,7 +113,8 @@ class group_info(BaseModel):
 class profile_info(BaseModel):
     model_config = ConfigDict(
         arbitrary_types_allowed=True,
-        populate_by_name=True           # cho phép alias ngược lại khi dump
+        populate_by_name=True,           # cho phép alias ngược lại khi dump
+        extra="allow"                   
     )
 
     id: Optional[Union[str, ObjectId]] = Field(default=None, alias="_id")
@@ -136,12 +137,13 @@ class profile_info(BaseModel):
     hidden_phone: bool = False
     language: str = "vietnamese"
     primary_profile: bool = True
-    widgets_company: List[widget_company] = []
-    widgets_email: List[widget_email] = []
-    widgets_mobile: List[widget_mobile] = []
-    widgets_image_gallery: List[widget_image_gallery] = []
-    widgets_social_network_link: List[widget_social_network_link] = []
-    widgets_custom_link: List[widget_custom_link] = []
+    
+    # widgets_company: List[widget_company] = []
+    # widgets_email: List[widget_email] = []
+    # widgets_mobile: List[widget_mobile] = []
+    # widgets_image_gallery: List[widget_image_gallery] = []
+    # widgets_social_network_link: List[widget_social_network_link] = []
+    # widgets_custom_link: List[widget_custom_link] = []
 
 # if __name__ == "__main__":
 #     data = {
