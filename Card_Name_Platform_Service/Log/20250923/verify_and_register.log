@@ -1,0 +1,1 @@
+2025-09-23 15:56:42,303 - verify_and_register - DEBUG: >>>> Exception in verify_and_register: 'str' object has no attribute 'code_id'

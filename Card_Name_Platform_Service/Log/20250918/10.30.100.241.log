@@ -1,0 +1,1 @@
+2025-09-18 14:47:03,297 - 10.30.100.241 - DEBUG: >>>> Exception in authenticate_user: 'NoneType' object is not subscriptable

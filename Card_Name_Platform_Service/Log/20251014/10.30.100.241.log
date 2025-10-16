@@ -1,0 +1,5 @@
+2025-10-14 11:12:15,352 - 10.30.100.241 - DEBUG: >>>> Exception in get_detail_profile - optional 0: list index out of range
+2025-10-14 11:13:16,734 - 10.30.100.241 - DEBUG: >>>> Exception in get_detail_profile - optional 0: list index out of range
+2025-10-14 14:44:58,522 - 10.30.100.241 - DEBUG: >>>> Exception in get_detail_profile - optional 0: Card_Name_Platform_Service.app.model.Profile_Info_Model.ProfileInfoModelRtn() got multiple values for keyword argument '_id'
+2025-10-14 14:46:11,069 - 10.30.100.241 - DEBUG: >>>> Exception in get_detail_profile - optional 0: Unable to serialize unknown type: <class 'bson.objectid.ObjectId'>
+2025-10-14 16:44:53,842 - 10.30.100.241 - DEBUG: >>>> Exception in get_detail_profile - optional 0: 'list' object has no attribute 'split'

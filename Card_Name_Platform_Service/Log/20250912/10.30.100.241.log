@@ -1,0 +1,12 @@
+2025-09-12 16:53:03,408 - 10.30.100.241 - DEBUG: >>>> Exception in authenticate_user: 1 validation error for account_info
+_id
+  Input should be a valid string [type=string_type, input_value=ObjectId('68b1241c91b161bf70c9cf35'), input_type=ObjectId]
+    For further information visit https://errors.pydantic.dev/2.5/v/string_type
+2025-09-12 16:54:02,202 - 10.30.100.241 - DEBUG: >>>> Exception in authenticate_user: 1 validation error for account_info
+_id
+  Input should be a valid string [type=string_type, input_value=ObjectId('68b1241c91b161bf70c9cf35'), input_type=ObjectId]
+    For further information visit https://errors.pydantic.dev/2.5/v/string_type
+2025-09-12 17:05:32,873 - 10.30.100.241 - DEBUG: >>>> Exception in authenticate_user: 1 validation error for account_info
+_id
+  Input should be a valid string [type=string_type, input_value=ObjectId('68b1241c91b161bf70c9cf35'), input_type=ObjectId]
+    For further information visit https://errors.pydantic.dev/2.5/v/string_type
