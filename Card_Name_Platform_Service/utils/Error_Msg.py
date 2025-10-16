@@ -27,7 +27,23 @@ class MinIOMsg:
 
 class ProfileMsg:
     build_successful = "Build profile successful"
+    build_failed = "Build profile failed"
     update_successful = "Update profile successful"
     get_successful = "Get profile successful"
+    get_failed = "Get profile failed"
     failed = "Handle profile failed"
     not_found = "Profile not found"
+    get_list_profile_successful = "Get list profile successful"
+    get_list_profile_failed = "Get list profile failed"
+    profile_list_empty = "Profile list is empty"
+
+class CardMsg:
+    is_found = "OK"
+    not_found = "Card not found"
+    is_linked = "Card is already linked to a profile"
+    is_unlinked = "Card is already unlinked"
+    no_linked_profile = "No linked profile found for this card"
+    link_successful = "Link profile to card successful"
+    link_failed = "Link profile to card failed"
+    unlink_successful = "Unlink profile from card successful"
+    unlink_failed = "Unlink profile from card failed"

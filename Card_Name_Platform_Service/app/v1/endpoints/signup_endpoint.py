@@ -2,9 +2,9 @@ from fastapi import APIRouter, Request, Depends
 from Card_Name_Platform_Service.app.model.Register_Model import *
 from Card_Name_Platform_Service.app.service.signup.signup import *
 from Card_Name_Platform_Service.app.service.signup.verify_and_register import *
-from Card_Name_Platform_Service.app.service.signup.build_profile import *
+from Card_Name_Platform_Service.app.service.profile.build_profile import *
 from Card_Name_Platform_Service.utils.Auth_Utility import *
-
+from typing import Union
 
 
 router = APIRouter(
@@ -31,7 +31,7 @@ async def register_account(request: Request, auth_model: AuthModel):
                     400: {"model": TokenModel, "description": "Bad Request"}
                 }
             )
-async def verify_account(request: Request, verification_code: str, payload: PayloadEndUserModel=Depends(verify_token_factory(TokenModel, mode="normal", is_pop_redis=True))):
+async def verify_account(request: Request, verification_code: str, card_id: Union[str, None]=None, pin: Union[str, None]=None, payload: PayloadEndUserModel=Depends(verify_token_factory(TokenModel, mode="normal", is_pop_redis=True))):
     ip = request.client.host
-    res = await verify_and_register(verify_code=verification_code, payload=payload, ip=ip)
+    res = await verify_and_register(verify_code=verification_code, payload=payload, ip=ip, card_id=card_id, pin=pin)
     return res

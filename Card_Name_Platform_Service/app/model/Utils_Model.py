@@ -3,10 +3,15 @@ from typing import List, Dict, Any, Optional
 from Card_Name_Platform_Service.utils.Error_Msg import *
 from Card_Name_Platform_Service.app.model.Message_Model import *
 
-class ObjectPresignedModel(ErrorMessageModel):
+class AbsObjectModel(BaseModel):
     object_name: str = ""
     presigned_link: str = ""
 
+class ObjectPresignedModel(AbsObjectModel, ErrorMessageModel):
+    pass
+
+class ObjectPresignedListModel(ErrorMessageModel):
+    object_list: List[AbsObjectModel] = []
 
 class EmailVerifyCodeModel(BaseModel):
     email: str = ""

@@ -10,3 +10,7 @@ class AuthModel(BaseModel):
         if not values.email or not values.password:
             raise ValueError("Email and password must be provided")
         return values
+    
+class AuthModelWithCard(AuthModel):
+    card_id: str = ""
+    pin: str = ""

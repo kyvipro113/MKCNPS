@@ -14,7 +14,10 @@ def genUniversalUID(num_character=6):
         num_letters = sum(1 for c in uid if c in string.ascii_letters)
         if num_letters >= 2:
             return uid
-    
+
+def genUIDHex():
+    return uuid.uuid4().hex
+
 def genUserUID(num_character=12):
     time_gen = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
     _uuid = uuid.uuid4().hex[:num_character]

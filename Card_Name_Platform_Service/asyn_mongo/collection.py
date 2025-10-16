@@ -19,6 +19,8 @@ class account_info(BaseModel):
     act_login_by_phone_number: bool = False
     first_login: bool = False
     change_profile: bool = True
+    account_mode: str = "free user" ## free user or group user
+    group_id: str = ""
 
 class manager_account(BaseModel):
     model_config = ConfigDict(
@@ -43,6 +45,7 @@ class card_info(BaseModel):
     uid: str = ""
     status: str = "01"
     pin: str = ""
+    group_id: str = ""
  
 
 class widget_company_branch(BaseModel):
@@ -92,12 +95,9 @@ class widget_social_network_link(BaseModel):
     layout_position: int = -1
     
 class group_branch(BaseModel):
-    branch_name: str = ""
-    branch_address: str = ""
-    area_code_branch: str = ""
-    branch_telephone: str = ""
-    branch_email: str = ""
-    branch_website: str = ""
+    area_code: str = ""
+    phone: str = ""
+    address: List[str] = []
 
 class group_info(BaseModel):
     model_config = ConfigDict(
@@ -105,10 +105,17 @@ class group_info(BaseModel):
         populate_by_name=True           # cho phép alias ngược lại khi dump
     )
     id: Optional[Union[str, ObjectId]] = Field(default=None, alias="_id")
+    group_id: str = ""
     group_name: str = ""
     group_logo: str = ""
-    group_branchs: List[group_branch] = []
-
+    group_email: str = ""
+    group_website: str = ""
+    branch_list: List[group_branch] = []
+    accents_color: str = "#ffffff"
+    background_color: str = "#000000"
+    language: str = "vietnamese"
+    theme_type: str = "00"
+    primary_group: bool = False
 
 class profile_info(BaseModel):
     model_config = ConfigDict(

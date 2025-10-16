@@ -6,13 +6,13 @@ from Card_Name_Platform_Service.logger.Logger import *
 from Card_Name_Platform_Service.utils.object_id import *
 from Card_Name_Platform_Service.app.model.Utils_Model import *
 
-async def generate_presigned_put_obj_link(bucket_name: str, ip: str, object_name: str="", is_temp=False):
+async def generate_presigned_put_obj_link(bucket_name: str, ip: str, object_name: str="", file_ext=".png", is_temp=False):
     logger = Logger(folder_name="Log", file_name=ip, name_logger=ip, file_mode="a")
     try:
         bucket_name = "temp" if is_temp else bucket_name
         print(f"bucket_name: {bucket_name}")
         await Minio_Client.create_folder(bucket_name=bucket_name)
-        obj_name = ObjectIdGenerator.generate(mode="str") if object_name == "" else object_name
+        obj_name = (ObjectIdGenerator.generate(mode="str") + file_ext) if object_name == "" else object_name
         presigned_url  = await Minio_Client.get_url_upload(bucket_name=bucket_name, object_name=obj_name)
         presigned_model = ObjectPresignedModel(object_name=obj_name, presigned_link=presigned_url, message=MinIOMsg.successful)
         return JSONResponse(content=presigned_model.model_dump(mode="json"), status_code=200)
@@ -20,13 +20,30 @@ async def generate_presigned_put_obj_link(bucket_name: str, ip: str, object_name
         print(str(e))
         await logger.trace(f"Exception in generate_presigned_put_obj_link: {str(e)}")
         return JSONResponse(content=ObjectPresignedModel(object_name="", presigned_link="", message=MinIOMsg.failed).model_dump(mode="json"), status_code=400)
-    
+
+async def generate_presigned_put_list_obj_link(bucket_name: str, total_obj: int, ip: str, file_ext=".png", is_temp=False):
+    logger = Logger(folder_name="Log", file_name=ip, name_logger=ip, file_mode="a")
+    try:
+        bucket_name = "temp" if is_temp else bucket_name
+        print(f"bucket_name: {bucket_name}")
+        await Minio_Client.create_folder(bucket_name=bucket_name)
+        obj_list = []
+        for _ in range(total_obj):
+            obj_name = ObjectIdGenerator.generate(mode="str") + file_ext
+            presigned_url  = await Minio_Client.get_url_upload(bucket_name=bucket_name, object_name=obj_name)
+            presigned_model = ObjectPresignedModel(object_name=obj_name, presigned_link=presigned_url, message=MinIOMsg.successful)
+            obj_list.append(presigned_model)
+        presigned_list_model = ObjectPresignedListModel(object_list=obj_list, message=MinIOMsg.successful)
+        return JSONResponse(content=presigned_list_model.model_dump(mode="json"), status_code=200)
+    except Exception as e:
+        print(str(e))
+        await logger.trace(f"Exception in generate_presigned_put_list_obj_link: {str(e)}")
+        return JSONResponse(content=ObjectPresignedListModel(object_list=[], message=MinIOMsg.failed).model_dump(mode="json"), status_code=400)
 
 async def generate_presigned_get_obj_link(bucket_name: str, object_name: str, ip: str):
     logger = Logger(folder_name="Log", file_name=ip, name_logger=ip, file_mode="a")
-    minio_client = Minio_Client()
     try:
-        presigned_url  = await minio_client.get_url(bucket_name=bucket_name, object_name=object_name)
+        presigned_url  = await Minio_Client.get_url(bucket_name=bucket_name, object_name=object_name)
         presigned_model = ObjectPresignedModel(object_name=object_name, presigned_link=presigned_url, message=MinIOMsg.successful)
         return JSONResponse(content=presigned_model.model_dump(mode="json"), status_code=200)
     except Exception as e:

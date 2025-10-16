@@ -6,9 +6,10 @@ from Card_Name_Platform_Service.app.model.Message_Model import *
 class PayloadEndUserModel(BaseModel):
     uid: str = ""
     flag: bool = False
-    change_profile: bool = False
+    #change_profile: bool = False
     token_type: str = ""
     email: str = ""
+    role: str = "user"
     model_config = {"extra": "allow"}  # Extending to allow additional fields (exp, token_type, email, ....)
 
 class PayloadManagerModel(BaseModel):
@@ -18,7 +19,7 @@ class PayloadManagerModel(BaseModel):
     name: str = ""
     status: str = ""
     token_type: str = ""
-
+    role: str = "manager"
     model_config = {"extra": "allow"}  # # Extending to allow additional fields (exp, token_type)
 
 class TokenPayloadModel(BaseModel):

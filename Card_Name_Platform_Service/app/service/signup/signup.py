@@ -12,8 +12,9 @@ from Card_Name_Platform_Service.minio_client.Minio_Client import *
 from Card_Name_Platform_Service.utils.Redis_Utility import *
 from Card_Name_Platform_Service.app.service.sys.utils import send_verification_code
 import uuid
+from typing import Union
 
-async def signup(auth: AuthModel, ip: str):
+async def signup(auth: Union[AuthModel, AuthModelWithCard], ip: str):
     mongo = AsyncMongoDB()
     redis_client = RedisClient()
     logger = Logger(folder_name="Log", file_name=ip, name_logger=ip, file_mode="a")

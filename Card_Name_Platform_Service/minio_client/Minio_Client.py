@@ -100,22 +100,18 @@ class Minio_Client(object):
         except Exception as err:
             raise S3Error(err)   
 
-    async def get_url(bucket_name, object_name):
+    async def get_url(bucket_name, object_name, expiration=timedelta(days=1)):
         try:
-            url = await Minio_Client.minio_client.presigned_get_object(bucket_name=bucket_name, object_name=object_name, expires=timedelta(days=1))
+            url = await Minio_Client.minio_client.presigned_get_object(bucket_name=bucket_name, object_name=object_name, expires=expiration)
             return url
         except Exception as err:
             raise S3Error("MinIO Server Error:" + str(err))
 
     async def get_url_upload(bucket_name, object_name):
-        print(f"Pre")
         try:
-            print(f"Pre1")
             url = await Minio_Client.minio_client.presigned_put_object(bucket_name=bucket_name, object_name=object_name, expires=timedelta(minutes=5))
-            print(f"Pre2")
             return url
         except Exception as err:
-            print(f"Re")
             print(str(err))
             raise S3Error("MinIO Server Error:" + str(err))
 

@@ -41,7 +41,7 @@ def verify_token_factory(model_cls: Type[BaseModel], mode: str = "all", is_pop_r
                 )
 
             # check is end user or manager
-            if "change_profile" in payload:
+            if payload["role"] == "user":
                 payload = PayloadEndUserModel(**payload)
             else:
                 payload = PayloadManagerModel(**payload)

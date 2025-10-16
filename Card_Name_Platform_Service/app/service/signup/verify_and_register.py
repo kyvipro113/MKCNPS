@@ -8,7 +8,7 @@ from Card_Name_Platform_Service.app.model.Token_Model import *
 from Card_Name_Platform_Service.app.service.sys.utils import *
 from Card_Name_Platform_Service.utils.JWT_Utility import *
 
-async def verify_and_register(verify_code: str, payload: PayloadEndUserModel, ip: str):
+async def verify_and_register(verify_code: str, payload: PayloadEndUserModel, ip: str, **kwargs):
     mongo = AsyncMongoDB()
     redis = RedisClient()
     logger = Logger(folder_name="Log", file_name="verify_and_register", name_logger="verify_and_register", file_mode="a")
@@ -25,6 +25,22 @@ async def verify_and_register(verify_code: str, payload: PayloadEndUserModel, ip
         
         account_if = account_info(**account_if)
         account_if.id = ObjectId(account_if.id)
+
+        # Check card & pin if provided (for card of group)
+        card_id = kwargs.get("card_id", "")
+        pin = kwargs.get("pin", "")
+        if card_id != "" and pin != "":
+            query = {
+                "card_id": card_id,
+                "pin": pin
+            }
+            card_if = await mongo.find_one(card_info.__name__, query)
+            if card_if is not None:
+                card_if = card_info(**card_if)
+                if card_if.uid == "":
+                    account_if.group_id = card_if.group_id
+                    await mongo.update_one(card_info.__name__, card_if.id, {"uid": account_if.id, "status": "00"})
+                    
         oid = await mongo.insert_one(account_info.__name__, account_if.model_dump(mode="python", by_alias=True))
         print(f"Inserted ID: {oid}")
         print(f"UID: {account_if.id}")

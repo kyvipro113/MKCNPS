@@ -47,7 +47,7 @@ async def authenticate_user(auth: AuthModel, ip: str, mode="end_user"):
                 uid=str(accountIF.id),
                 email=accountIF.email,
                 flag=accountIF.first_login,
-                change_profile=accountIF.change_profile
+                # change_profile=accountIF.change_profile
             )
 
             token_model.access_token, token_model.refresh_token = await create_jwt_access_and_refresh_token(data=token_data.model_dump(mode="python"))

@@ -23,11 +23,11 @@ class AsyncMongoDB:
         return documents
 
     async def find_one_id(self, collection_name: str, id: str, **kwargs):
-        doc = await self.db[collection_name].find_one({"_id": ObjectId(id)}, kwargs)
+        doc = await self.db[collection_name].find_one({"_id": ObjectId(id)}, **kwargs)
         return doc
     
     async def find_one(self, collection_name: str, query: dict, **kwargs):
-        doc = await self.db[collection_name].find_one(query, kwargs)
+        doc = await self.db[collection_name].find_one(query, **kwargs)
         return doc
     
     async def insert_one(self, collection_name: str, document: dict):
@@ -46,6 +46,14 @@ class AsyncMongoDB:
         )
         return result.modified_count
     
+    async def update_many(self, collection_name: str, filter_query: dict, update_fields: dict, **kwargs):
+        result = await self.db[collection_name].update_many(
+            filter_query,
+            {"$set": update_fields},
+            **kwargs
+        )
+        return result.modified_count
+
     async def delete_one(self, collection_name: str, id: str):
         result = await self.db[collection_name].delete_one({"_id": ObjectId(id)})
         return result.deleted_count

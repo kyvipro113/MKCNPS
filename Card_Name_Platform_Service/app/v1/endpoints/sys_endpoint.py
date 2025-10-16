@@ -15,3 +15,10 @@ async def get_presigned_put_obj_link(request: Request, payload: PayloadEndUserMo
     ip = request.client.host
     res = await generate_presigned_put_obj_link(ip=ip, bucket_name="", is_temp=True)
     return res
+
+
+@router.get("/get-presigned-put-list-obj-link-permanent/{bucket}/{total_obj}")
+async def get_presigned_put_list_obj_link_permanent(bucket: str, total_obj: int, request: Request, payload: PayloadEndUserModel=Depends(verify_token_factory(ObjectPresignedListModel, mode="normal"))):
+    ip = request.client.host
+    res = await generate_presigned_put_list_obj_link(bucket_name=bucket, total_obj=total_obj, ip=ip)
+    return res

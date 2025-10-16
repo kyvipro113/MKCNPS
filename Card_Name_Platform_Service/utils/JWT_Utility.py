@@ -14,7 +14,7 @@ from Card_Name_Platform_Service.utils.Redis_Utility import *
 SECRET_KEY = "728b47cdae4823d01dc5c36c95364680fb3af92307689afd21cd8106d7ff9dd3"
 ALGORITHM = "HS256"
 
-async def create_jwt_token(data: dict, SECRET_KEY=SECRET_KEY, ALGORITHM=ALGORITHM):
+async def create_jwt_token(data: dict, SECRET_KEY=SECRET_KEY, ALGORITHM=ALGORITHM, db=0):
     # Set the expiration time to 10 minutes from now
     expiration_time = datetime.now(UTC) + timedelta(minutes=60*24)
     # datetime.now(UTC) ### Using from python ver 3.11
@@ -26,13 +26,13 @@ async def create_jwt_token(data: dict, SECRET_KEY=SECRET_KEY, ALGORITHM=ALGORITH
     print(f"JTI: {data['jti']}")  
     data["token_type"] = "access"
     # Add token to redis
-    redis_client = RedisClient()
+    redis_client = RedisClient(db=db)
     await redis_client.set(key=data["jti"], value="allow", ex=60*60*24)
     # Encode the token with the updated payload
     return jwt.encode(data, SECRET_KEY, algorithm=ALGORITHM)
 
-async def create_jwt_access_and_refresh_token(data: dict, SECRET_KEY=SECRET_KEY, ALGORITHM=ALGORITHM, remaining_time=-1):
-    redis_client = RedisClient()
+async def create_jwt_access_and_refresh_token(data: dict, SECRET_KEY=SECRET_KEY, ALGORITHM=ALGORITHM, remaining_time=-1, db=0):
+    redis_client = RedisClient(db=0)
     access_exp = datetime.now(UTC) + timedelta(minutes=60*24)
     refresh_exp: datetime
     if remaining_time != -1:
