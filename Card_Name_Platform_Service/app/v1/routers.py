@@ -3,7 +3,7 @@ from Card_Name_Platform_Service.app.v1.endpoints.auth_endpoint import router as 
 from Card_Name_Platform_Service.app.v1.endpoints.user_endpoint import router as user_router
 # from Card_Name_Platform_Service.app.v1.endpoints.cms_endpoint
 from Card_Name_Platform_Service.app.v1.endpoints.profile_enpoint import router as profile_router
-from Card_Name_Platform_Service.app.v1.endpoints.signup_endpoint import router as signup_router
+# from Card_Name_Platform_Service.app.v1.endpoints.signup_endpoint import router as signup_router
 from Card_Name_Platform_Service.app.v1.endpoints.sys_endpoint import router as sys_router
 
 router = APIRouter(

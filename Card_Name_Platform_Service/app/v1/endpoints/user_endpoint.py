@@ -26,6 +26,18 @@ async def sign_up(request: Request, auth_model: AuthModel):
     res = await signup(auth_model, ip)
     return res
 
+# @router.post("/verify-account/{verification_code}",
+#                 responses={
+#                     200: {"model": TokenModel, "description": "Successful", "include_in_schema": False},
+#                     401: {"model": TokenModel, "description": "Unauthorized"},
+#                     400: {"model": TokenModel, "description": "Bad Request"}
+#                 }
+#             )
+# async def verify_account(request: Request, verification_code: str, payload: PayloadEndUserModel=Depends(verify_token_factory(TokenModel, mode="normal", is_pop_redis=True))):
+#     ip = request.client.host
+#     res = await verify_and_register(verify_code=verification_code, payload=payload, ip=ip)
+#     return res
+ 
 @router.post("/verify-account/{verification_code}",
                 responses={
                     200: {"model": TokenModel, "description": "Successful", "include_in_schema": False},
@@ -33,11 +45,17 @@ async def sign_up(request: Request, auth_model: AuthModel):
                     400: {"model": TokenModel, "description": "Bad Request"}
                 }
             )
-async def verify_account(request: Request, verification_code: str, payload: PayloadEndUserModel=Depends(verify_token_factory(TokenModel, mode="normal", is_pop_redis=True))):
+async def verify_account(request: Request, verification_code: str, card_id: str|None=None, pin: str|None=None, payload: PayloadEndUserModel=Depends(verify_token_factory(TokenModel, mode="normal", is_pop_redis=True))):
     ip = request.client.host
-    res = await verify_and_register(verify_code=verification_code, payload=payload, ip=ip)
+    print(f"Card id: {card_id}, Pin: {pin}")
+    if card_id is None:
+        print("No card id provided")
+    else:
+        print("Card id OK")
+    res = await verify_and_register(verify_code=verification_code, payload=payload, ip=ip, card_id=card_id, pin=pin)
     return res
- 
+
+
 # @router.post("/send-verify-code-to-email")
 # async def send_verify_code_to_email(request: Request):
 #     ip = request.client.host

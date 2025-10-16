@@ -24,9 +24,9 @@ async def verify_and_register(verify_code: str, payload: PayloadEndUserModel, ip
             return JSONResponse(content=TokenModel(message=RegisterMsg.handle_error).model_dump(mode="json"), status_code=400)
         
         account_if = account_info(**account_if)
-        account_if.id = ObjectId(account_if.id)
-
+        
         # Check card & pin if provided (for card of group)
+        print(kwargs)
         card_id = kwargs.get("card_id", "")
         pin = kwargs.get("pin", "")
         if card_id != "" and pin != "":
@@ -40,7 +40,8 @@ async def verify_and_register(verify_code: str, payload: PayloadEndUserModel, ip
                 if card_if.uid == "":
                     account_if.group_id = card_if.group_id
                     await mongo.update_one(card_info.__name__, card_if.id, {"uid": account_if.id, "status": "00"})
-                    
+
+        account_if.id = ObjectId(account_if.id)          
         oid = await mongo.insert_one(account_info.__name__, account_if.model_dump(mode="python", by_alias=True))
         print(f"Inserted ID: {oid}")
         print(f"UID: {account_if.id}")
