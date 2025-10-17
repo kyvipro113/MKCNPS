@@ -67,6 +67,10 @@ class AsyncMongoDB:
         results = await cursor.to_list(length=None)
         return results
     
+    async def count_documents(self, collection_name: str, query: dict):
+        count = await self.db[collection_name].count_documents(query)
+        return count
+
 def load_settings_mongo(MONGO_HOST: str, MONGO_PORT: Union[str, int], USERNAME: Union[str, None], PASSWORD: Union[str, None], db_name):
     MONGO_PORT = str(MONGO_PORT)
     MongoDBConfig.URI = f"mongodb://{MONGO_HOST}:{MONGO_PORT}" if not USERNAME and not PASSWORD else f"mongodb://{USERNAME}:{PASSWORD}@{MONGO_HOST}:{MONGO_PORT}"

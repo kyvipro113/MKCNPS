@@ -11,7 +11,6 @@ from Card_Name_Platform_Service.minio_client.Minio_Client import *
 async def get_profile_list_user(payload: PayloadEndUserModel, ip: str):
     mongo = AsyncMongoDB()
     logger = Logger(folder_name="Log", file_name=ip, name_logger=ip, file_mode="a")
-    minio_client = Minio_Client()
     profile_list = []
     try:
         pipeline = [

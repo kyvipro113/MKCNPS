@@ -18,10 +18,10 @@ async def authenticate_user(auth: AuthModel, ip: str, mode="end_user"):
     mongo = AsyncMongoDB()
     logger = Logger(folder_name="Log", file_name=ip, name_logger=ip, file_mode="a")
     account_if = None
-    token_model = TokenModel()
 
     if mode == "end_user":
         is_phone_number = is_phone_number_sequence(auth.email)
+        token_model = EndUserTokenModelRtn()
         try:
             if is_phone_number:
                 query = {
@@ -52,18 +52,21 @@ async def authenticate_user(auth: AuthModel, ip: str, mode="end_user"):
 
             token_model.access_token, token_model.refresh_token = await create_jwt_access_and_refresh_token(data=token_data.model_dump(mode="python"))
             token_model.first_login = accountIF.first_login
+
+            profile_count = await mongo.count_documents(profile_info.__name__, {"uid": str(accountIF.id)})
+            token_model.exists_profile = True if profile_count > 0 else False
+
             token_model.message = LoginMsg.successful
 
             print(token_model.model_dump(mode="json"))
             return JSONResponse(content=token_model.model_dump(mode="json"), status_code=200)
-            # Add more value return
         except Exception as e:
             print(str(e))
             await logger.trace(f"Exception in authenticate_user: {str(e)}")
-            token_model.message = LoginMsg.handle_error
-            return JSONResponse(content=token_model.model_dump(mode="json"), status_code=400)
+            return JSONResponse(content=EndUserTokenModelRtn(message = LoginMsg.handle_error).model_dump(mode="json"), status_code=400)
     
     else:
+        token_model = TokenModel()
         try:
             query = {
                 "manager_user_name": auth.email,
@@ -92,6 +95,5 @@ async def authenticate_user(auth: AuthModel, ip: str, mode="end_user"):
 
         except Exception as e:
             await logger.trace(f"Exception in authenticate_cms: {str(e)}")
-            token_model.message = LoginMsg.handle_error
-            return JSONResponse(content=token_model.model_dump(mode="json"), status_code=400)
+            return JSONResponse(content=TokenModel(message = LoginMsg.handle_error).model_dump(mode="json"), status_code=400)
     
