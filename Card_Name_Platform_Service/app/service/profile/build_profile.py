@@ -43,7 +43,10 @@ async def build_fast_profile(payload: PayloadEndUserModel, profile_built: Profil
         print(f"Inserted profile ID: {_oid}")
         username_link = profile_built.username_link if profile_built.username_link != "" else genUIDHex()
         await mongo.update_one(account_info.__name__, payload.uid, {"username_link": username_link})
+        
         # Move object from temp to permanent location in MinIO
+        await Minio_Client.move_object(src_bucket="temp", src_object=profile_built.avatar_name, dest_bucket="avatar")
+        await Minio_Client.move_object(src_bucket="temp", src_object=profile_built.banner_name, dest_bucket="banner")
 
         return JSONResponse(content=ErrorMessageModel(message=ProfileMsg.build_successful).model_dump(mode="json"), status_code=200)
     except Exception as e:

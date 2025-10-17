@@ -136,7 +136,7 @@ class profile_info(BaseModel):
     slogan: str = ""
     avatar_location: str = ""
     banner_location: str = ""
-    backgroumd_color: str = "#ffffff"
+    background_color: str = "#000000"
     accents_color: str = "#ffffff"
     theme_type: str = "00"
     group_id: Union[str, None] = ""
