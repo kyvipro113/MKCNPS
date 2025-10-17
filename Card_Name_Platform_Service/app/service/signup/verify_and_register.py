@@ -40,6 +40,8 @@ async def verify_and_register(verify_code: str, payload: PayloadEndUserModel, ip
                 if card_if.uid == "":
                     account_if.group_id = card_if.group_id
                     await mongo.update_one(card_info.__name__, card_if.id, {"uid": account_if.id, "status": "00"})
+                    account_if.account_mode = "group user"
+                    account_if.change_profile = card_if.change_profile
 
         account_if.id = ObjectId(account_if.id)          
         oid = await mongo.insert_one(account_info.__name__, account_if.model_dump(mode="python", by_alias=True))

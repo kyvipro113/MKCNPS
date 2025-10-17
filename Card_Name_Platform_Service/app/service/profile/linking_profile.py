@@ -27,7 +27,7 @@ async def linking_profile_to_card(payload: PayloadEndUserModel, card_if_model: C
         await logger.trace(f"Exception in link_profile_to_card - : {str(e)}")
         return JSONResponse(content=ErrorMessageModel(message=CardMsg.link_failed).model_dump(mode="json"), status_code=400)
     
-
+############# CHANGE
 async def unlinking_profile_to_card(payload: PayloadEndUserModel, card_id: str, ip: str):
     mongo = AsyncMongoDB()
     logger = Logger(folder_name="Log", file_name=ip, name_logger=ip, file_mode="a")
@@ -51,6 +51,8 @@ async def unlinking_profile_to_card(payload: PayloadEndUserModel, card_id: str, 
         #         "group_id": "",
         #     }
         #     await mongo.update_many(profile_info.__name__, condition, update_field)
+
+
 
         return JSONResponse(content=ErrorMessageModel(message=CardMsg.unlink_successful).model_dump(mode="json"), status_code=200)
 

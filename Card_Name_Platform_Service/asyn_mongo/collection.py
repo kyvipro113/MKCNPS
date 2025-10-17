@@ -46,6 +46,7 @@ class card_info(BaseModel):
     status: str = "01"
     pin: str = ""
     group_id: str = ""
+    change_profile: bool = True
  
 
 class widget_company_branch(BaseModel):
