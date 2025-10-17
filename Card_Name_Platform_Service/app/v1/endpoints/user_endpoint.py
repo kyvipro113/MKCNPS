@@ -47,11 +47,6 @@ async def sign_up(request: Request, auth_model: AuthModel):
             )
 async def verify_account(request: Request, verification_code: str, card_id: str|None=None, pin: str|None=None, payload: PayloadEndUserModel=Depends(verify_token_factory(TokenModel, mode="normal", is_pop_redis=True))):
     ip = request.client.host
-    print(f"Card id: {card_id}, Pin: {pin}")
-    if card_id is None:
-        print("No card id provided")
-    else:
-        print("Card id OK")
     res = await verify_and_register(verify_code=verification_code, payload=payload, ip=ip, card_id=card_id, pin=pin)
     return res
 

@@ -37,6 +37,11 @@ class ProfileMsg:
     get_list_profile_failed = "Get list profile failed"
     profile_list_empty = "Profile list is empty"
 
+class UsernameLinkMsg:
+    is_exists = "Username link is already taken"
+    is_found = "OK"
+    not_found = "Username link not found"
+
 class CardMsg:
     is_found = "OK"
     not_found = "Card not found"

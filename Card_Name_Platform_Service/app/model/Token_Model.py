@@ -5,7 +5,7 @@ from Card_Name_Platform_Service.app.model.Message_Model import *
 
 class PayloadEndUserModel(BaseModel):
     uid: str = ""
-    flag: bool = False
+    # flag: bool = False
     #change_profile: bool = False
     token_type: str = ""
     email: str = ""
@@ -29,8 +29,12 @@ class TokenPayloadModel(BaseModel):
 class TokenModel(ErrorMessageModel):
     access_token: str = ""
     refresh_token: str = ""
+    first_login: bool = False
     # flag: bool = False
     # change_profile: bool = False
+
+class EndUserTokenModelRtn(TokenModel):
+    exists_profile: bool = False
 
 # class ManagerTokenModel(ErrorMessageModel):
 #     access_token: str = ""

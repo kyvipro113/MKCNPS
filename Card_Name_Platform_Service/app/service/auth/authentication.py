@@ -46,11 +46,12 @@ async def authenticate_user(auth: AuthModel, ip: str, mode="end_user"):
             token_data = PayloadEndUserModel(
                 uid=str(accountIF.id),
                 email=accountIF.email,
-                flag=accountIF.first_login,
+                # flag=accountIF.first_login,
                 # change_profile=accountIF.change_profile
             )
 
             token_model.access_token, token_model.refresh_token = await create_jwt_access_and_refresh_token(data=token_data.model_dump(mode="python"))
+            token_model.first_login = accountIF.first_login
             token_model.message = LoginMsg.successful
 
             print(token_model.model_dump(mode="json"))
@@ -85,6 +86,7 @@ async def authenticate_user(auth: AuthModel, ip: str, mode="end_user"):
             )
 
             token_model.access_token, token_model.refresh_token = await create_jwt_access_and_refresh_token(data=token_data.model_dump(mode="python"))
+            token_model.first_login = True if accountIF.status == "01" else False
             token_model.message = LoginMsg.successful
             return JSONResponse(content=token_model.model_dump(mode="json"), status_code=200)
 

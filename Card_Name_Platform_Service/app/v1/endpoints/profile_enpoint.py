@@ -60,6 +60,8 @@ async def get_profile_info_via_serial_with_language(request: Request, card_id: s
     return res
     
 
-@router.post("/get-profile-info-via-username-link")
-async def get_profile_via_username_link(request: Request):
+@router.get("/get-profile-info-via-username-link/{username_link}")
+async def get_profile_via_username_link(request: Request, username_link: str, language: str|None=None):
     ip = request.client.host
+    res = await get_detail_profile(key=username_link, ip=ip, model_cls=ProfileInfoModelRtn, optional=2, language=language)
+    return res

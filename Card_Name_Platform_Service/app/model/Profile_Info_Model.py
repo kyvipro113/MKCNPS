@@ -4,7 +4,6 @@ from bson import ObjectId
 from Card_Name_Platform_Service.app.model.Widget_Model import *
 from Card_Name_Platform_Service.app.model.Message_Model import *
 
-
 class ProfileInfoBuiltModel(BaseModel):
     designation: str = ""
     bio: str = ""
@@ -13,8 +12,8 @@ class ProfileInfoBuiltModel(BaseModel):
     primary_email: str = ""
     address: str = ""
     #slogan: str = ""
-    avatar_name: str = ""
-    banner_name: str = ""
+    avatar_name: Optional[Union[str|None]] = None
+    banner_name: Optional[Union[str|None]] = None
     language: str = "vietnamese"
     name: str = ""
     username_link: str = ""
@@ -38,8 +37,8 @@ class ProfileInfoModel(BaseModel):
     primary_email: str = ""
     address: str = ""
     slogan: str = ""
-    avatar_location: str = ""
-    banner_location: str = ""
+    avatar_name: Optional[Union[str|None]] = None
+    banner_name: Optional[Union[str|None]] = None
     background_color: str = "#ffffff"
     accents_color: str = "#ffffff"
     theme_type: str = "00"

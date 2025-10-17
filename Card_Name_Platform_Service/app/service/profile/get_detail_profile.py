@@ -85,6 +85,31 @@ async def get_detail_profile(key: str, ip: str, model_cls: Type[Union[ProfileInf
             
             profile_if_rtn = model_cls(**profile_if, card_status=CardMsg.is_found, link_status=CardMsg.is_linked, message=ProfileMsg.get_successful)
 
+        elif optional == 2:
+            print(kwargs)
+            language = kwargs.get("language", None)
+            query = {
+                "username_link": key,
+            }
+            account_if = await mongo.find_one(account_info.__name__, query)
+            if account_if is None:
+                return JSONResponse(content=model_cls(message=UsernameLinkMsg.not_found).model_dump(mode="json"), status_code=499)
+            account_if = account_info(**account_if)
+            query = {
+                "uid": str(account_if.id),
+                "primary_profile": True
+            } if language is None or language == "" else {
+                "uid": account_if.id,
+                "primary_profile": True,
+                "language": language
+            }
+            projection = {"uid": 0}
+            profile_if = await mongo.find_one(profile_info.__name__, query, projection=projection)
+            if profile_if is None:
+                return JSONResponse(content=model_cls(message=ProfileMsg.not_found).model_dump(mode="json"), status_code=499)
+            
+            profile_if_rtn = model_cls(**profile_if, message=ProfileMsg.get_successful)
+
         ## Group
         if profile_if_rtn.group_id is not None and profile_if_rtn.group_id != "":
             query = {

@@ -25,7 +25,7 @@ async def linking_profile_to_card(payload: PayloadEndUserModel, card_if_model: C
     except Exception as e:
         print(str(e))
         await logger.trace(f"Exception in link_profile_to_card - : {str(e)}")
-        return JSONResponse(content=ErrorMessageModel(message=CardMsg.link_successful).model_dump(mode="json"), status_code=400)
+        return JSONResponse(content=ErrorMessageModel(message=CardMsg.link_failed).model_dump(mode="json"), status_code=400)
     
 
 async def unlinking_profile_to_card(payload: PayloadEndUserModel, card_id: str, ip: str):
