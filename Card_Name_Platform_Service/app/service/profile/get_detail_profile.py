@@ -49,7 +49,7 @@ async def get_detail_profile(key: str, ip: str, model_cls: Type[Union[ProfileInf
             if profile_if is None:
                 return JSONResponse(content=ProfileInfoModelRtn(**data[0], message=ProfileMsg.not_found).model_dump(mode="json"), status_code=499)
             
-            profile_if_rtn = ProfileInfoModelRtn(**data[0], **profile_if, message=ProfileMsg.get_successful)
+            profile_if_rtn = model_cls(**data[0], **profile_if, message=ProfileMsg.get_successful)
 
         elif optional == 1:
             print(kwargs)

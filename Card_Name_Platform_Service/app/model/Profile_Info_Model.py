@@ -37,8 +37,8 @@ class ProfileInfoModel(BaseModel):
     primary_email: str = ""
     address: str = ""
     slogan: str = ""
-    avatar_name: Optional[Union[str|None]] = None
-    banner_name: Optional[Union[str|None]] = None
+    avatar_location: Optional[Union[str|None]] = None
+    banner_location: Optional[Union[str|None]] = None
     background_color: str = "#ffffff"
     accents_color: str = "#ffffff"
     theme_type: str = "00"
