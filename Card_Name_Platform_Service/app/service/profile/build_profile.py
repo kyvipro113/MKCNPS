@@ -41,6 +41,11 @@ async def build_fast_profile(payload: PayloadEndUserModel, profile_built: Profil
 
         _oid = await mongo.insert_one(profile_info.__name__, profile_if.model_dump(mode="python", by_alias=True))
         print(f"Inserted profile ID: {_oid}")
+        # check exists username link
+        count_username_link = await mongo.count_documents(profile_info.__name__, {"username_link": profile_built.username_link})
+        if count_username_link > 0:
+            return JSONResponse(content=ErrorMessageModel(message=UsernameLinkMsg.is_exists).model_dump(mode="json"), status_code=402)
+        
         username_link = profile_built.username_link if profile_built.username_link != "" else genUIDHex()
         await mongo.update_one(account_info.__name__, payload.uid, {"username_link": username_link})
         
