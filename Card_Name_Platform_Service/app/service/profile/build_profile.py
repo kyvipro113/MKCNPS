@@ -21,8 +21,12 @@ async def build_fast_profile(payload: PayloadEndUserModel, profile_built: Profil
         
         oid = ObjectIdGenerator.generate(mode="oid")
         print(f"Generated OID: {oid}")
-        avatar_locat = "avatar/" + profile_built.avatar_name if profile_built.avatar_name != "" else ""
-        banner_locat = "banner/" + profile_built.banner_name if profile_built.banner_name != "" else ""
+        avatar_locat = "avatar/" + profile_built.avatar_name if profile_built.avatar_name != None and profile_built.avatar_name != "" else ""
+        if profile_built.banner_name.startswith("#") and len(profile_built.banner_name) == 7:
+            banner_locat = profile_built.banner_name
+        else:
+            banner_locat = "banner/" + profile_built.banner_name if profile_built.banner_name != None and profile_built.banner_name != "" else ""
+        
         profile_if = profile_info(
             id=oid,
             uid=payload.uid,
@@ -42,16 +46,24 @@ async def build_fast_profile(payload: PayloadEndUserModel, profile_built: Profil
         _oid = await mongo.insert_one(profile_info.__name__, profile_if.model_dump(mode="python", by_alias=True))
         print(f"Inserted profile ID: {_oid}")
         # check exists username link
-        count_username_link = await mongo.count_documents(profile_info.__name__, {"username_link": profile_built.username_link})
+        count_username_link = await mongo.count_documents(account_info.__name__, {"username_link": profile_built.username_link})
+        print(count_username_link)
         if count_username_link > 0:
-            return JSONResponse(content=ErrorMessageModel(message=UsernameLinkMsg.is_exists).model_dump(mode="json"), status_code=402)
+            return JSONResponse(content=ErrorMessageModel(message=UsernameLinkMsg.is_exists).model_dump(mode="json"), status_code=497)
         
-        username_link = profile_built.username_link if profile_built.username_link != "" else genUIDHex()
-        await mongo.update_one(account_info.__name__, payload.uid, {"username_link": username_link})
+        username_link = profile_built.username_link if profile_built.username_link != "" and profile_built.username_link != None else genUIDHex()
+        update_fields = {
+            "username_link": username_link,
+            "phone_number": profile_built.primary_mobile,
+        }
+        await mongo.update_one(account_info.__name__, payload.uid, update_fields)
         
         # Move object from temp to permanent location in MinIO
-        await Minio_Client.move_object(src_bucket="temp", src_object=profile_built.avatar_name, dest_bucket="avatar")
-        await Minio_Client.move_object(src_bucket="temp", src_object=profile_built.banner_name, dest_bucket="banner")
+        if profile_if.avatar_location.startswith("avatar/"):
+            await Minio_Client.move_object(src_bucket="temp", src_object=profile_built.avatar_name, dest_bucket="avatar")
+
+        if profile_if.banner_location.startswith("banner/"):
+            await Minio_Client.move_object(src_bucket="temp", src_object=profile_built.banner_name, dest_bucket="banner")
 
         return JSONResponse(content=ErrorMessageModel(message=ProfileMsg.build_successful).model_dump(mode="json"), status_code=200)
     except Exception as e:

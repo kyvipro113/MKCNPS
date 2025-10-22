@@ -53,7 +53,7 @@ class widget_company_branch(BaseModel):
     branch_name: str = ""
     area_code: str = ""
     phone: str = ""
-    address_list: List[str] = []
+    address: str = ""
     
 
 class widget_company(BaseModel):

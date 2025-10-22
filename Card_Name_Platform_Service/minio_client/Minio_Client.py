@@ -31,7 +31,7 @@ class Minio_Client(object):
             if(obj.object_name == object_name):
                 return True
         except Exception as err:
-            return False
+            return Exception("Exception in check_file_exists: " + str(err))
         
     async def create_folder(bucket_name: str):
         folder = await Minio_Client.minio_client.bucket_exists(bucket_name=bucket_name)
@@ -43,7 +43,7 @@ class Minio_Client(object):
             await Minio_Client.minio_client.fput_object(bucket_name=bucket_name, object_name=object_name, file_path=file_path)
             return True
         except Exception as err:
-            raise err
+            raise Exception("Exception in upload_file: " + str(err))
 
     async def upload_data(bucket_name: str, object_name: str, data: str):
         try:
@@ -52,18 +52,15 @@ class Minio_Client(object):
             await Minio_Client.minio_client.put_object(bucket_name=bucket_name, object_name=object_name, data=data_stream, length=len(data_bytes))
             return True
         except Exception as err:
-            raise err
+            raise Exception("Exception in upload_data: " + str(err))
 
-            
-        
     async def upload_data_byte(bucket_name: str, object_name: str, data: bytes, content_type="image/png"):
         try:
             data_stream = io.BytesIO(data)
             await Minio_Client.minio_client.put_object(bucket_name=bucket_name, object_name=object_name, data=data_stream, length=len(data), content_type=content_type)
             return True
         except Exception as err:
-            raise err
-        
+            raise Exception("Exception in upload_data_byte: " + str(err))
         
     async def delete_file(bucket_name: str, object_name: str, optional=False):
         try:
@@ -72,7 +69,7 @@ class Minio_Client(object):
         except Exception as err:
             if optional:
                 pass
-            raise err
+            raise Exception("Exception in delete_file: " + str(err))
     
     async def delete_multi_file(bucket_name: str, object_list: list):
         try:
@@ -80,14 +77,14 @@ class Minio_Client(object):
                 await Minio_Client.minio_client.remove_object(bucket_name=bucket_name, object_name=object_name)
             return True
         except Exception as err:
-            raise err
+            raise Exception("Exception in delete_multi_file: " + str(err))
         
     async def delete_multi_file_native(bucket_name: str, object_list: list):
         try:
             await Minio_Client.minio_client.remove_objects(bucket_name=bucket_name, delete_object_list=object_list)
             return True
         except Exception as err:
-            raise err
+            raise Exception("Exception in delete_multi_file_native: " + str(err))
         
     async def download_sdata(bucket_name, object_name):
         '''Using for small text data'''
@@ -99,22 +96,21 @@ class Minio_Client(object):
             data = bytes(data).decode("utf-8")
             return data
         except Exception as err:
-            raise err
+            raise Exception("Exception in download_sdata: " + str(err))
 
     async def get_url(bucket_name, object_name, expiration=timedelta(days=1)):
         try:
             url = await Minio_Client.minio_client.presigned_get_object(bucket_name=bucket_name, object_name=object_name, expires=expiration)
             return url
         except Exception as err:
-            raise err
+            raise Exception("Exception in get_url: " + str(err))
 
     async def get_url_upload(bucket_name, object_name):
         try:
             url = await Minio_Client.minio_client.presigned_put_object(bucket_name=bucket_name, object_name=object_name, expires=timedelta(minutes=5))
             return url
         except Exception as err:
-            print(str(err))
-            raise err
+            raise Exception("Exception in get_url_upload: " + str(err))
 
     async def get_url_no_presign(bucket_name, object_name):
         pre_link = ""
@@ -139,7 +135,7 @@ class Minio_Client(object):
                 return ""
             return data
         except Exception as err:
-            raise err
+            raise Exception("Exception in download_data: " + str(err))
         
 
     async def move_object(src_bucket, src_object, dest_bucket, dest_object=None, remove_src=False):
@@ -151,7 +147,7 @@ class Minio_Client(object):
             if remove_src:
                 await Minio_Client.minio_client.remove_object(bucket_name=src_bucket, object_name=src_object)
         except Exception as err:
-            raise err
+            raise Exception("Exception in move_object: " + str(err))
 
 
 

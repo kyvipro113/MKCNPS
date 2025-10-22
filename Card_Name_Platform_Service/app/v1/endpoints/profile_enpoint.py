@@ -6,8 +6,10 @@ from Card_Name_Platform_Service.app.service.auth.authentication import *
 from Card_Name_Platform_Service.app.service.auth.refresh_access_token import *
 from Card_Name_Platform_Service.app.model.Profile_List_Model import *
 from Card_Name_Platform_Service.app.service.profile.get_profile_list import *
+from Card_Name_Platform_Service.app.service.profile.create_profile import *
 from Card_Name_Platform_Service.app.service.profile.get_detail_profile import *
 from Card_Name_Platform_Service.app.service.profile.build_profile import *
+from Card_Name_Platform_Service.app.service.profile.edit_profile import *
 from Card_Name_Platform_Service.app.service.profile.linking_profile import *
 
 from Card_Name_Platform_Service.utils.Auth_Utility import *
@@ -35,6 +37,12 @@ async def unlink_profile_to_card(request: Request, card_id: str, payload: Payloa
     res = await unlinking_profile_to_card(payload=payload, card_id=card_id, ip=ip)
     return res
 
+@router.post("/create-new-profile")
+async def create_new_profile(request: Request, profile_info_built: ProfileInfoBuiltModel, payload: PayloadEndUserModel=Depends(verify_token_factory(ErrorMessageModel, mode="normal"))):
+    ip = request.client.host
+    res = await create_profile(payload=payload, profile_info_built=profile_info_built, ip=ip)
+    return res
+
 @router.get("/get-profile-list")
 async def get_profile_list(Request: Request, payload: PayloadEndUserModel=Depends(verify_token_factory(ErrorMessageModel, mode="normal"))):
     ip = Request.client.host
@@ -59,9 +67,14 @@ async def get_profile_info_via_serial_with_language(request: Request, card_id: s
     res = await get_detail_profile(key=card_id, ip=ip, model_cls=ProfileInfoCardModelRtn, optional=1, language=language)
     return res
     
-
 @router.get("/get-profile-info-via-username-link/{username_link}")
 async def get_profile_via_username_link(request: Request, username_link: str, language: str|None=None):
     ip = request.client.host
     res = await get_detail_profile(key=username_link, ip=ip, model_cls=ProfileInfoModelRtn, optional=2, language=language)
+    return res
+
+@router.post("/edit-profile")
+async def edit_profile_info(request: Request, profile_info_edit_model: ProfileInfoEditModel, payload: PayloadEndUserModel=Depends(verify_token_factory(ErrorMessageModel, mode="normal"))):
+    ip = request.client.host
+    res = await edit_profile(payload=payload, profile_info_edit_model=profile_info_edit_model, ip=ip)
     return res

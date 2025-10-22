@@ -11,7 +11,7 @@ from Card_Name_Platform_Service.utils.JWT_Utility import *
 async def verify_and_register(verify_code: str, payload: PayloadEndUserModel, ip: str, **kwargs):
     mongo = AsyncMongoDB()
     redis = RedisClient()
-    logger = Logger(folder_name="Log", file_name="verify_and_register", name_logger="verify_and_register", file_mode="a")
+    logger = Logger(folder_name="Log", file_name=ip, name_logger=ip, file_mode="a")
     token_model = EndUserTokenModelRtn()
     try:
         print(payload)

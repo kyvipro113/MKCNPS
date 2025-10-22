@@ -124,13 +124,14 @@ async def get_detail_profile(key: str, ip: str, model_cls: Type[Union[ProfileInf
                 profile_if_rtn.group_info = Group_Info(**group_if)
 
 
-        folder_file_obj = profile_if_rtn.avatar_location.split('/')
         if profile_if_rtn.avatar_location != "":
+            folder_file_obj = profile_if_rtn.avatar_location.split('/')
             profile_if_rtn.avatar_location = await Minio_Client.get_url(bucket_name=folder_file_obj[0], object_name=folder_file_obj[1])
         
-        folder_file_obj = profile_if_rtn.banner_location.split('/')
         if profile_if_rtn.banner_location != "":
-            profile_if_rtn.banner_location = await Minio_Client.get_url(bucket_name=folder_file_obj[0], object_name=folder_file_obj[1])
+            if not (len(profile_if_rtn.banner_location) == 7 and profile_if_rtn.banner_location.startswith("#")):
+                folder_file_obj = profile_if_rtn.banner_location.split('/')
+                profile_if_rtn.banner_location = await Minio_Client.get_url(bucket_name=folder_file_obj[0], object_name=folder_file_obj[1])
 
         if len(profile_if_rtn.widget_company) != 0:
             for idx, comp in enumerate(profile_if_rtn.widget_company):

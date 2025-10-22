@@ -67,9 +67,17 @@ class AsyncMongoDB:
         results = await cursor.to_list(length=None)
         return results
     
-    async def count_documents(self, collection_name: str, query: dict):
-        count = await self.db[collection_name].count_documents(query)
+    async def count_documents(self, collection_name: str, query: dict, **kwargs):
+        count = await self.db[collection_name].count_documents(query, **kwargs)
         return count
+    
+    async def replace_one(self, collection_name: str, id: str, document: dict, **kwargs):
+        result = await self.db[collection_name].replace_one(
+            {"_id": ObjectId(id)},
+            document,
+            **kwargs
+        )
+        return result.modified_count
 
 def load_settings_mongo(MONGO_HOST: str, MONGO_PORT: Union[str, int], USERNAME: Union[str, None], PASSWORD: Union[str, None], db_name):
     MONGO_PORT = str(MONGO_PORT)

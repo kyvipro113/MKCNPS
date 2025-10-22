@@ -36,6 +36,10 @@ class ProfileMsg:
     get_list_profile_successful = "Get list profile successful"
     get_list_profile_failed = "Get list profile failed"
     profile_list_empty = "Profile list is empty"
+    create_new_profile_successful = "Create new profile successful"
+    create_new_profile_failed = "Create new profile failed"
+    edit_profile_successful = "Edit profile successful"
+    edit_profile_failed = "Edit profile failed"
 
 class UsernameLinkMsg:
     is_exists = "Username link is already taken"

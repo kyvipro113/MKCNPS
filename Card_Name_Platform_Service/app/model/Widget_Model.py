@@ -6,7 +6,7 @@ class Widget_Company_Branch(BaseModel):
     branch_name: str = ""
     area_code: str = ""
     phone: str = ""
-    address_list: List[str] = []
+    address: str = ""
     
 
 class Widget_Company(BaseModel):
