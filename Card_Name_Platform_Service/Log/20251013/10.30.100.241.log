@@ -1,7 +1,0 @@
-2025-10-13 10:47:29,158 - 10.30.100.241 - DEBUG: >>>> Exception in get_profile_list: Minio_Client.get_url() got an unexpected keyword argument 'expiration'
-2025-10-13 10:48:13,318 - 10.30.100.241 - DEBUG: >>>> Exception in get_profile_list: S3Error.__init__() missing 5 required positional arguments: 'message', 'resource', 'request_id', 'host_id', and 'response'
-2025-10-13 10:49:28,092 - 10.30.100.241 - DEBUG: >>>> Exception in get_profile_list: S3Error.__init__() missing 5 required positional arguments: 'message', 'resource', 'request_id', 'host_id', and 'response'
-2025-10-13 10:49:56,239 - 10.30.100.241 - DEBUG: >>>> Exception in get_profile_list: S3Error.__init__() missing 5 required positional arguments: 'message', 'resource', 'request_id', 'host_id', and 'response'
-2025-10-13 10:54:16,077 - 10.30.100.241 - DEBUG: >>>> Exception in get_profile_list: Minio_Client.get_url() got multiple values for argument 'bucket_name'
-2025-10-13 10:58:27,760 - 10.30.100.241 - DEBUG: >>>> Exception in get_profile_list: S3Error.__init__() missing 5 required positional arguments: 'message', 'resource', 'request_id', 'host_id', and 'response'
-2025-10-13 11:07:18,641 - 10.30.100.241 - DEBUG: >>>> Exception in get_profile_list: Minio_Client.get_url_no_presign() got multiple values for argument 'bucket_name'

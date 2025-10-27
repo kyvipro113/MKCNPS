@@ -1,21 +1,23 @@
 CNP_SERVICE:
     CNP_HOST: 10.30.100.241
-    CNP_PORT: 6321
+    CNP_PORT: 8988
     SECURE: False
     NUM_CPU: 1
 DATABASE:
-    DB_HOST: 10.30.100.241
-    DB_PORT: 5433
-    DB_USERNAME: postgres
-    DB_PASSWORD: 123456
+    DB_HOST: localhost
+    DB_PORT: 27017
+    DB_USERNAME: Null
+    DB_PASSWORD: Null
     DB_NAME: mkcnp
 MINIO_SERVER_API:
     USE_PORT: True
-    MSI_HOST: 10.30.100.241
+    MSI_HOST: 10.30.72.11
     #MSI_HOST: namecard-minio.mk.com.vn
     MSI_PORT: 9000
     SECURE: False
     CA_MINIO: SSL/ca_minio/rootCA.crt
+    ACCESS_KEY: rYljmk2rPzbWzBxT6167
+    SECRET_KEY: FxvBDcRiFG0iIvCRhdwYmMcCIt7QqGwXItmWvPnO
 REDIS_SERVER:
     REDIS_HOST: 127.0.0.1
     REDIS_PORT: 6378

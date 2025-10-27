@@ -1,2 +1,0 @@
-2025-09-04 09:22:24,172 - 10.30.100.241 - DEBUG: >>>> Exception in authenticate_user: Card_Name_Platform_Service.asyn_mongo.collection.account_info() argument after ** must be a mapping, not NoneType
-2025-09-04 09:23:06,348 - 10.30.100.241 - DEBUG: >>>> Exception in authenticate_user: Card_Name_Platform_Service.asyn_mongo.collection.account_info() argument after ** must be a mapping, not NoneType

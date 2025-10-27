@@ -1,5 +1,0 @@
-2025-10-15 09:47:35,986 - 10.30.100.241 - DEBUG: >>>> Exception in get_detail_profile - optional 0: 'ProfileInfoModelRtn' object has no attribute 'avatar_location'
-2025-10-15 14:18:17,202 - 10.30.100.241 - DEBUG: >>>> Exception in get_detail_profile - optional 1: Card_Name_Platform_Service.app.model.Profile_Info_Model.ProfileInfoCardModelRtn() got multiple values for keyword argument '_id'
-2025-10-15 14:19:56,832 - 10.30.100.241 - DEBUG: >>>> Exception in get_detail_profile - optional 1: Card_Name_Platform_Service.app.model.Profile_Info_Model.ProfileInfoCardModelRtn() got multiple values for keyword argument '_id'
-2025-10-15 14:21:08,965 - 10.30.100.241 - DEBUG: >>>> Exception in get_detail_profile - optional 1: Card_Name_Platform_Service.app.model.Profile_Info_Model.ProfileInfoCardModelRtn() got multiple values for keyword argument '_id'
-2025-10-15 14:25:41,672 - 10.30.100.241 - DEBUG: >>>> Exception in get_detail_profile - optional 1: Card_Name_Platform_Service.app.model.Profile_Info_Model.ProfileInfoCardModelRtn() got multiple values for keyword argument 'group_id'
