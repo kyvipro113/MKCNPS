@@ -46,6 +46,9 @@ class ProfileInfoModel(BaseModel):
     banner_location: Optional[Union[str|None]] = None
     background_color: str = "#000000"
     accents_color: str = "#ffffff"
+    header_text: str = "#000000"
+    body_text: str = "#000000"
+    buttons_blocks: str = "#5d81cf"
     theme_type: str = "00"
     group_id: Union[str, None] = ""
     sub_group_id: Union[str, None] = ""
@@ -128,6 +131,9 @@ class ProfileInfoEditModel(BaseModel):
     banner_name: Optional[Union[str|None]] = None
     background_color: str = "#000000"
     accents_color: str = "#ffffff"
+    header_text: str = "#000000"
+    body_text: str = "#000000"
+    buttons_blocks: str = "#5d81cf"
     theme_type: str = "00"
     group_id: Union[str, None] = ""
     sub_group_id: Union[str, None] = ""

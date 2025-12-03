@@ -78,3 +78,13 @@ async def edit_profile_info(request: Request, profile_info_edit_model: ProfileIn
     ip = request.client.host
     res = await edit_profile(payload=payload, profile_info_edit_model=profile_info_edit_model, ip=ip)
     return res
+
+@router.post("/translate-batch")
+async def translate_profile_batch(request: Request):
+    req = await request.json()
+    texts = req.get("texts", [])
+    source_language = req.get("source_language", "auto")
+    target_language = req.get("target_language", "en")
+    from Card_Name_Platform_Service.utils.Translate_Batch import translate_batch
+    res = translate_batch(texts=texts, source_language=source_language, target_language=target_language)
+    return {"translations": res}
