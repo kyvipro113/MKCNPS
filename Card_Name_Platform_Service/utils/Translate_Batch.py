@@ -2,9 +2,10 @@ import requests
 import base64
 
 # Tạo separator đảm bảo Google không dịch
-SEPARATOR = "__SEP_b64_9f86d081884c7d659a2feaa0c55ad015__"
+# SEPARATOR = "__SEP_b64_9f86d081884c7d659a2feaa0c55ad015__" 
+SEPARATOR = "/.&$#!/" 
 
-def translate_batch(texts: list[str], source_language: str="auto", target_language: str="en"):
+async def translate_batch(texts: list[str], source_language: str="auto", target_language: str="en"):
     # Ghép chuỗi bằng separator an toàn
     q = SEPARATOR.join(texts)
 

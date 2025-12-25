@@ -2,6 +2,7 @@ from fastapi import APIRouter, Request
 
 from Card_Name_Platform_Service.app.model.Auth_Model import *
 from Card_Name_Platform_Service.app.model.Token_Model import *
+from Card_Name_Platform_Service.app.model.Account_Info_Model import *
 from Card_Name_Platform_Service.app.service.auth.authentication import *
 from Card_Name_Platform_Service.app.service.auth.refresh_access_token import *
 from Card_Name_Platform_Service.app.model.Profile_List_Model import *
@@ -11,8 +12,17 @@ from Card_Name_Platform_Service.app.service.profile.get_detail_profile import *
 from Card_Name_Platform_Service.app.service.profile.build_profile import *
 from Card_Name_Platform_Service.app.service.profile.edit_profile import *
 from Card_Name_Platform_Service.app.service.profile.linking_profile import *
+from Card_Name_Platform_Service.app.service.profile.set_primary_profile import *
+from Card_Name_Platform_Service.app.service.profile.delete_profile import *
+from Card_Name_Platform_Service.app.service.profile.get_username_link_profile import *
+from Card_Name_Platform_Service.app.service.profile.update_username_link import *
+from Card_Name_Platform_Service.app.service.profile.get_list_card import *
+from Card_Name_Platform_Service.app.service.profile.get_settings_account import *
+from Card_Name_Platform_Service.app.service.profile.activate_deactivate_phone_login import *
+from Card_Name_Platform_Service.app.service.profile.reset_setting_account import *
 
 from Card_Name_Platform_Service.utils.Auth_Utility import *
+from Card_Name_Platform_Service.app.service.sys.utils import *
 
 router = APIRouter(
     prefix="/profile",
@@ -79,6 +89,63 @@ async def edit_profile_info(request: Request, profile_info_edit_model: ProfileIn
     res = await edit_profile(payload=payload, profile_info_edit_model=profile_info_edit_model, ip=ip)
     return res
 
+@router.post("/set-primary-profile/{profile_id}")
+async def set_primary_profile_endpoint(request: Request, profile_id: str, payload: PayloadEndUserModel=Depends(verify_token_factory(ErrorMessageModel, mode="normal"))):
+    ip = request.client.host
+    res = await set_primary_profile(payload=payload, profile_id=profile_id, ip=ip)
+    return res
+
+@router.post("/delete-profile/{profile_id}")
+async def delete_profile_endpoint(request: Request, profile_id: str, payload: PayloadEndUserModel=Depends(verify_token_factory(ErrorMessageModel, mode="normal"))):
+    ip = request.client.host
+    res = await delete_profile(payload=payload, profile_id=profile_id, ip=ip)
+    return res
+
+@router.get("/get-username-link")
+async def get_username_link(request: Request, payload: PayloadEndUserModel=Depends(verify_token_factory(ErrorMessageModel, mode="normal"))):
+    ip = request.client.host
+    res = await get_username_link_profile(payload=payload, ip=ip)
+    return res
+
+@router.post("/update-username-link")
+async def update_username_link_endpoint(request: Request, payload: PayloadEndUserModel=Depends(verify_token_factory(ErrorMessageModel, mode="normal"))):
+    ip = request.client.host
+    req = await request.json()
+    new_username_link = req.get("new_username_link", "")
+    res = await update_username_link(payload=payload, new_username_link=new_username_link, ip=ip)
+    return res
+
+@router.get("/get-list-card")
+async def get_list_card_endpoint(request: Request, payload: PayloadEndUserModel=Depends(verify_token_factory(ErrorMessageModel, mode="normal"))):
+    ip = request.client.host
+    res = await get_list_card(payload=payload, ip=ip)
+    return res
+
+@router.get("/get-account-settings")
+async def get_account_settings_endpoint(request: Request, payload: PayloadEndUserModel=Depends(verify_token_factory(ErrorMessageModel, mode="normal"))):
+    ip = request.client.host
+    res = await get_settings_account(payload=payload, ip=ip)
+    return res
+
+@router.post("/activate-deactivate-phone-login")
+async def activate_deactivate_phone_login_endpoint(request: Request, data: AccountSettingsModel, payload: PayloadEndUserModel=Depends(verify_token_factory(ErrorMessageModel, mode="normal"))):
+    ip = request.client.host
+    res = await activate_deactivate_phone_login(data=data, payload=payload, ip=ip)
+    return res
+
+@router.post("/reset-account-settings")
+async def reset_account_settings_endpoint(request: Request, data: ResetSettingsModel, payload: PayloadEndUserModel=Depends(verify_token_factory(ErrorMessageModel, mode="normal"))):
+    ip = request.client.host
+    res = await reset_setting_account(data=data, payload=payload, ip=ip)
+    return res
+
+@router.post("/send-verify-code")
+async def send_verify_code_endpoint(request: Request, data: ResetSettingsModel, payload: PayloadEndUserModel=Depends(verify_token_factory(ErrorMessageModel, mode="normal"))):
+    ip = request.client.host
+    res = await send_verify_code(data=data, payload=payload, ip=ip)
+    return res
+
+
 @router.post("/translate-batch")
 async def translate_profile_batch(request: Request):
     req = await request.json()
@@ -86,5 +153,5 @@ async def translate_profile_batch(request: Request):
     source_language = req.get("source_language", "auto")
     target_language = req.get("target_language", "en")
     from Card_Name_Platform_Service.utils.Translate_Batch import translate_batch
-    res = translate_batch(texts=texts, source_language=source_language, target_language=target_language)
+    res = await translate_batch(texts=texts, source_language=source_language, target_language=target_language)
     return {"translations": res}

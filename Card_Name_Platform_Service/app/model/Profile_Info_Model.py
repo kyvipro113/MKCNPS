@@ -147,3 +147,6 @@ class ProfileInfoEditModel(BaseModel):
     widget_image_gallery: List[Widget_Image_Gallery] = []
     widget_social_network_link: List[Widget_Social_Network_Link] = []
     widget_custom_link: List[Widget_Custom_Link] = []
+
+class UsernameLinkModel(ErrorMessageModel):
+    username_link: str = ""

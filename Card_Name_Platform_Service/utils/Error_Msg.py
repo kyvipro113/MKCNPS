@@ -45,6 +45,10 @@ class UsernameLinkMsg:
     is_exists = "Username link is already taken"
     is_found = "OK"
     not_found = "Username link not found"
+    handle_error = "Handle error"
+    already_exists = "The username link already exists."
+    update_successful = "Username link updated successfully."
+    update_failed = "Failed to update username link."
 
 class CardMsg:
     is_found = "OK"
@@ -56,3 +60,41 @@ class CardMsg:
     link_failed = "Link profile to card failed"
     unlink_successful = "Unlink profile from card successful"
     unlink_failed = "Unlink profile from card failed"
+    get_list_card_failed = "Get list card failed"
+    get_list_card_successful = "Get list card successful"
+
+class SetPrimaryProfileMsg:
+    set_primary_successful = "Set primary profile successful"
+    set_primary_failed = "Set primary profile failed"
+
+class ForgotPasswordMsg:
+    email_not_found = "Email not found"
+    send_email_failed = "Send reset password email failed"
+    send_email_successful = "Send reset password email successful"
+
+class ResetPasswordMsg:
+    invalid_verify_code = "Invalid verification code"
+    reset_password_successful = "Reset password successful"
+    reset_password_failed = "Reset password failed"
+
+class DeleteProfileMsg:
+    delete_profile_successful = "Delete profile successful"
+    delete_profile_failed = "Delete profile failed"
+    cannot_delete_primary = "Cannot delete primary profile"
+    no_permission = "No permission to delete profile"
+
+class AccountSettingsMsg:
+    get_account_setting_successful = "Get account settings successful"
+    get_account_setting_failed = "Get account settings failed"
+    not_found = "Account not found"
+    handle_error = "Handle error"
+    update_account_successful = "Update successful"
+    reset_setting_successful = "Reset setting successful"
+    reset_setting_failed = "Reset setting failed"
+    reset_setting_invalid_phone_number = "Invalid phone number"
+    reset_setting_invalid_email = "Invalid email"
+    reset_setting_invalid_password = "Invalid password"
+    invalid_flag = "Invalid flag for resetting settings"
+    send_verify_code_successful = "Send verification code successful"
+    send_verify_code_failed = "Send verification code failed"
+

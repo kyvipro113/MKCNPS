@@ -8,3 +8,11 @@ class Card_Info_Model(BaseModel):
 
 class Card_Info_Ext_Model(Card_Info_Model):
     group_code: str = ""
+
+class Card_Serial_Info_Model(BaseModel):
+    card_id: str = ""
+    status: str = ""
+
+class Card_List_Model(ErrorMessageModel):
+    cards: List[Card_Serial_Info_Model] = []
+    avatar_location: Optional[str] = None
